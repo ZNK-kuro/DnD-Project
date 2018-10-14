@@ -1,11 +1,13 @@
 /*
   Archivo: Laberinto.cpp
-  Autor: Michelle Gonzalez H.        1871074
+  Autor: Ángel García Baños
+         Michelle Gonzalez H.        1871074
          Nicolas Jaramillo M.        1840558
-  Email: michelle.hernandez@correounivalle.edu.co
+  Email: angel.garcia@correounivalle.edu.co
+         michelle.hernandez@correounivalle.edu.co
          nicolas.jaramillo@correounivalle.edu.co
   Fecha creación: 2018/09/17
-  Fecha última modificación: 2018/10/11
+  Fecha última modificación: 2018/10/14
   Versión: 0.1.2
   Licencia: GPL
 */
