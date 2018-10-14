@@ -159,11 +159,11 @@ int Laberinto::caminoPrincipal(int filaInicial, int columnaInicial, int direccio
 }
 
 
-/*
+
 int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccion)
 {
   int contarVacias = 0;
-Lineas Rectas
+
   double pendiente = ((double)filaFinal-(double)filaInicial)/((double)(columnaFinal-columnaInicial));
   int fila= filaInicial;
   double sumarPendiente = 0;
@@ -215,7 +215,7 @@ Lineas Rectas
   }
 
   return contarVacias;
-} */
+} 
 
 
 void Laberinto::imprimir()
