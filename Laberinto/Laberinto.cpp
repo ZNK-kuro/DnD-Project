@@ -14,41 +14,44 @@
 
 #include "Laberinto.h"
 
-Laberinto::Laberinto(int numeroFilas, int numeroColumnas, int numeroTesoros, int numeroGnomos, int numeroDragones, double porcentajeCasillasVacias)
-{
+Laberinto::Laberinto(int numeroFilas, int numeroColumnas, int numeroTesoros,
+  int numeroGnomos, int numeroDragones, double porcentajeCasillasVacias)
+{ // Constructor
   this->numeroFilas = numeroFilas;
   this->numeroColumnas = numeroColumnas;
   this->numeroTesoros = numeroTesoros;
   this->numeroGnomos = numeroGnomos;
   this->numeroDragones = numeroDragones;
   this->porcentajeCasillasVacias = porcentajeCasillasVacias;
+  casillasVacias = 0;
+  filaEntrada = rand()% numeroFilas;
   tablero = new int*[numeroFilas];
+
   for(int fila=0; fila<numeroFilas; fila++)
-  {
+  { // Llena todo el laberinto con paredes
     tablero[fila] = new int[numeroColumnas];
     for(int columna=0; columna<numeroColumnas; columna++)
-      tablero[fila][columna] = 1;  // Llena todo el laberinto con paredes
+      tablero[fila][columna] = 1;
   }
-  casillasVacias = 0;
-
-  filaEntrada = rand()% numeroFilas;
 
   if (porcentajeCasillasVacias > 50)
-  {
-    cout<< "El porcentaje de casillas vacías es muy alto, se establecerá en el valor máximo de 50%." <<endl;
+  { // Limíta el porcentaje máximo de casillas vacías
+    cout<< "El porcentaje de casillas vacías es muy alto, \
+    se establecerá en el valor máximo de 50%." <<endl;
     this->porcentajeCasillasVacias = 50;
   }
 
   if (porcentajeCasillasVacias < 10)
-  {
-    cout<< "El porcentaje de casillas vacías es muy bajo, se establecerá en el valor mínimo de 10%." <<endl;
+  { // Limíta el porcentaje mínimo de casillas vacías
+    cout<< "El porcentaje de casillas vacías es muy bajo, \
+    se establecerá en el valor mínimo de 10%." <<endl;
     this->porcentajeCasillasVacias = 10;
   }
 }
 
 
 Laberinto::~Laberinto()
-{
+{ // Destructor
   for(int fila=0; fila<numeroFilas; fila++)
     delete tablero[fila];
   delete [] tablero;
@@ -58,50 +61,38 @@ Laberinto::~Laberinto()
 void Laberinto::fabricarCamino()
 {
   // Hacer el camino principal:
-
   casillasVacias += caminoPrincipal(filaEntrada, 0, 3);
 
-
   // Hacer caminos al azar:
-/*
   do
   {
     int filaInicial_Lineas;
     int columnaInicial_Lineas;
     int direccion = escogerDireccion();
 
-    do // esto evita la generación de caminos que no conectan de ninguna forma con el resto del laberinto
-    {
-      // Selecciona posiciones pertenecientes a puntos vacíos (la primera vez pertenece al camino principal)
+    do
+    { // Selecciona posiciones pertenecientes a puntos vacíos (la primera vez pertenece al camino principal)
       filaInicial_Lineas = rand() % numeroFilas;
       columnaInicial_Lineas = rand() % numeroColumnas;
-    }
+    } // Esto evita la generación de caminos que no conectan de ninguna forma con el resto del laberinto
     while (tablero[filaInicial_Lineas][columnaInicial_Lineas] != 0);
 
-    //Traza lineas cuyo punto inicial se encuentra vacío
+    // Traza lineas cuyo punto inicial se encuentra vacío:
     casillasVacias += trazaLineaRecta(filaInicial_Lineas, columnaInicial_Lineas, direccion);
-  }
-  // Limita los espacios vacíos generados por las lineas rectas generadas
+  } // Limita los espacios vacíos generados por las lineas rectas generadas
   while((((double)casillasVacias/((double)(numeroFilas*numeroColumnas)))*100) < porcentajeCasillasVacias);
 
-
   // Poner los Tesoros al azar:
-
   for (int tesoros=0; tesoros<numeroTesoros; tesoros++)
     ponerEnCasillaVaciaAlAzar(2);
 
-
   // Poner los Gnomos al azar:
-
   for(int gnomos=0; gnomos<numeroGnomos; gnomos++)
     ponerEnCasillaVaciaAlAzar(3);
 
-
   // Poner los Dragones al azar, cerca de la salida:
-
   for(int dragones=0; dragones<numeroDragones; dragones++)
     ponerEnCasillaVaciaAlAzar(4);
-*/
 }
 
 
@@ -115,8 +106,6 @@ int Laberinto::caminoPrincipal(int filaInicial, int columnaInicial, int direccio
     filaSalida = filaInicial; // Guarda la fila de salida
     return 0; // Termina la recursión
   }
-
-
 
   if (direccion==2) // Arriba
   {
