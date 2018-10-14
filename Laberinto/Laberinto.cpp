@@ -160,7 +160,7 @@ int Laberinto::caminoPrincipal(int filaInicial, int columnaInicial, int direccio
 
 
 int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccion)
-{ // Test github 4
+{
   int contarVacias = 0;
   int fila= filaInicial;
   double pendiente = ((double)filaFinal-(double)filaInicial)/((double)(columnaFinal-columnaInicial));
