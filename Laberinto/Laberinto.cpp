@@ -64,7 +64,7 @@ void Laberinto::fabricarCamino()
   casillasVacias += caminoPrincipal(filaEntrada, 0, 3);
 
   // Hacer caminos al azar:
-/*  do
+  do
   {
     int filaInicial_Lineas;
     int columnaInicial_Lineas;
@@ -92,7 +92,7 @@ void Laberinto::fabricarCamino()
 
   // Poner los Dragones al azar, cerca de la salida:
   for(int dragones=0; dragones<numeroDragones; dragones++)
-    ponerEnCasillaVaciaAlAzar(4);*/
+    ponerEnCasillaVaciaAlAzar(4);
 }
 
 
@@ -159,13 +159,11 @@ int Laberinto::caminoPrincipal(int filaInicial, int columnaInicial, int direccio
 }
 
 
-
 int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccion)
 {
   int contarVacias = 0;
-
-  double pendiente = ((double)filaFinal-(double)filaInicial)/((double)(columnaFinal-columnaInicial));
   int fila= filaInicial;
+  double pendiente = ((double)filaFinal-(double)filaInicial)/((double)(columnaFinal-columnaInicial));
   double sumarPendiente = 0;
 
   for (int columna=columnaInicial+1; columna<columnaFinal; columna++)
@@ -184,9 +182,7 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
         tablero[fila][columna+1]=0;
         contarVacias++;
       }
-
     }
-
 
     fila = filaInicial+sumarPendiente;
     if (tablero[fila][columna]!=0)
@@ -194,7 +190,6 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
       tablero[fila][columna]=0;
       contarVacias++;
     }
-
 
     if ((filaInicial<filaFinal) && (columna==columnaFinal-1))
     {
@@ -209,20 +204,14 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
         tablero[fila+1][columna]=0;
         contarVacias++;
       }
-
     }
-
   }
-
   return contarVacias;
-} 
+}
 
 
 void Laberinto::imprimir()
 {
-  for(int columna=0; columna<numeroColumnas+2; columna++)
-    cout << "X";
-  cout << endl;
   for(int fila=0; fila<numeroFilas; fila++)
   {
     cout << "X";
@@ -237,13 +226,9 @@ void Laberinto::imprimir()
         else
           cout << tablero[fila][columna];
       }
-
     }
     cout << "X" << endl;
   }
-  for(int columna=0; columna<numeroColumnas+2; columna++)
-    cout << "X";
-  cout << endl;
 }
 
 
@@ -254,12 +239,10 @@ void Laberinto::buscarCasillaAlAzar(int &fila, int &columna, int contenido)
     do
     {
       fila = rand() % numeroFilas;
-      //Restringe los valores de columna,esto permite que el dragon se situe cerca a la salida.
       columna = (numeroColumnas * 3/4) + (rand() % (numeroColumnas/4));
-    }
+    } // Restringe los valores de columna, esto sitúa al dragon cerca de la salida.
     while(tablero[fila][columna] != 0);
   }
-
   else
   {
     do
