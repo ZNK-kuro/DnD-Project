@@ -64,7 +64,7 @@ void Laberinto::fabricarCamino()
   casillasVacias += caminoPrincipal(filaEntrada, 0, 3);
 
   // Hacer caminos al azar:
-  do
+/*  do
   {
     int filaInicial_Lineas;
     int columnaInicial_Lineas;
@@ -92,7 +92,7 @@ void Laberinto::fabricarCamino()
 
   // Poner los Dragones al azar, cerca de la salida:
   for(int dragones=0; dragones<numeroDragones; dragones++)
-    ponerEnCasillaVaciaAlAzar(4);
+    ponerEnCasillaVaciaAlAzar(4);*/
 }
 
 
