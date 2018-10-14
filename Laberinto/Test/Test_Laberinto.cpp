@@ -1,10 +1,14 @@
 /*
   Archivo: Test_Laberinto.cpp
   Autor: Ángel García Baños
+         Michelle Gonzalez H.        1871074
+         Nicolas Jaramillo M.        1840558
   Email: angel.garcia@correounivalle.edu.co
-  Fecha creación: 2018-09-17
-  Fecha última modificación: 2018-09-22
-  Versión: 0.1
+         michelle.hernandez@correounivalle.edu.co
+         nicolas.jaramillo@correounivalle.edu.co
+  Fecha creación: 2018/09/17
+  Fecha última modificación: 2018/10/14
+  Versión: 0.1.2
   Licencia: GPL
 */
 
