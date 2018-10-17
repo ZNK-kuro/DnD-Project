@@ -62,13 +62,17 @@ void Laberinto::fabricarCamino()
 {
   // Hacer el camino principal:
   casillasVacias += caminoPrincipal(filaEntrada, 0, 3);
+
+  // Ubica la Entrada y la Salida
+  tablero[filaEntrada][0] = 5;
+  tablero[filaSalida][numeroColumnas-1] = 6;
+  imprimir();
   // Hacer caminos al azar:
   do
   {
     int filaInicial_Lineas;
     int columnaInicial_Lineas;
     int direccion = escogerDireccion();
-    double porcentajeVacio;
 
     do
     { // Selecciona posiciones pertenecientes a puntos vacíos (la primera vez pertenece al camino principal)
@@ -79,13 +83,10 @@ void Laberinto::fabricarCamino()
 
     // Traza lineas cuyo punto inicial se encuentra vacío:
     casillasVacias += trazaLineaRecta(filaInicial_Lineas, columnaInicial_Lineas, direccion);
-    porcentajeVacio = (((double)casillasVacias/((double)(numeroFilas*numeroColumnas)))*100);
-  } // Limita los espacios vacíos generados por las lineas rectas generadas
-  while(porcentajeVacio < porcentajeCasillasVacias);
 
-  // Ubica la Entrada y la Salida
-  tablero[filaEntrada][0] = 5;
-  tablero[filaSalida][numeroColumnas] = 6;
+  } // Limita los espacios vacíos generados por las lineas rectas generadas
+  while((((double)casillasVacias/((double)(numeroFilas*numeroColumnas)))*100)
+                                                  < porcentajeCasillasVacias);
 
   // Poner los Tesoros al azar:
   for (int tesoros=0; tesoros<numeroTesoros; tesoros++)
@@ -103,18 +104,21 @@ void Laberinto::fabricarCamino()
 
 int Laberinto::caminoPrincipal(int filaInicial, int columnaInicial, int direccion)
 { // Función recursiva que crea un camino que va desde el inicio hasta el final de manera ininterrumpida
+  cout<< "caminoPrincipal inicia" <<endl;
   int contarVacias = 0;
   int avanzar;
 
   if (columnaInicial == numeroColumnas)
   { // Condición para terminar la recursión
     filaSalida = filaInicial; // Guarda la fila de salida
+    cout<< "caminoPrincipal termina" <<endl;
     return 0; // Termina la recursión
   }
 
   if (direccion==2) // Arriba
   {
-    avanzar = (-(numeroFilas/10)+(rand()%4)-(rand()%4)); // Selecciona un avance para la matriz,
+    cout<< "arriba" <<endl;
+    avanzar = (-(numeroFilas/5)+(rand()%4)-(rand()%4)); // Selecciona un avance para la matriz,
     if (filaInicial+avanzar < 0)                         // el avance no es siempre el mismo
     { // Evita que el avance se salga de la matriz
       avanzar = (-filaInicial);
@@ -131,11 +135,12 @@ int Laberinto::caminoPrincipal(int filaInicial, int columnaInicial, int direccio
   }
   if (direccion==3 || direccion==1) // El camino principal nunca va hacia la izquierda, en vez de eso va a la derecha
   {                                 // Así evita bucles muy largos por devolverse aleatoriamente a la izquierda muchas veces
-    avanzar = (numeroColumnas/10+(rand()%4)-(rand()%4));
-    if (columnaInicial+avanzar > numeroColumnas)
+    cout<< "izquierda-derecha" <<endl;
+    avanzar = (numeroColumnas/15+(rand()%4)-(rand()%4));
+    if (columnaInicial+avanzar >= numeroColumnas-1)
       avanzar = (numeroColumnas - columnaInicial);
 
-    for (int columna=columnaInicial; columna<=columnaInicial+avanzar; columna++)
+    for (int columna=columnaInicial; columna<columnaInicial+avanzar; columna++)
     {
       if (tablero[filaInicial][columna]!=0)
       {
@@ -147,10 +152,12 @@ int Laberinto::caminoPrincipal(int filaInicial, int columnaInicial, int direccio
   }
   if (direccion==0) // Abajo
   {
-    avanzar = (numeroFilas/10+(rand()%4)-(rand()%4));
+    cout<< "abajo" <<endl;
+    avanzar = (numeroFilas/5+(rand()%4)-(rand()%4));
     if (filaInicial+avanzar > numeroFilas)
       avanzar = (numeroFilas - filaInicial);
-    for (int fila=filaInicial; fila<=filaInicial+avanzar; fila++)
+
+    for (int fila=filaInicial; fila<filaInicial+avanzar; fila++)
     {
       if (tablero[fila][columnaInicial]!=0)
       {
@@ -168,14 +175,15 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
 {
   int contarVacias = 0;
   int avanzar;
-
-  if (direccion==1)
+  cout<< "trazaLineaRecta inicia" <<endl;
+  if (direccion==1) // Izquierda
   {
+    cout<< "Izquierda" <<endl;
     avanzar = (-(numeroColumnas/10)+(rand()%4)-(rand()%4));
-    if (columnaInicial+avanzar < 0)
-      avanzar = (-columnaInicial);
+    if (columnaInicial+avanzar <= 0)
+      avanzar = (1-columnaInicial);
 
-    for (int columna=columnaInicial; columna>=columnaInicial+avanzar; columna++)
+    for (int columna=columnaInicial; columna>=columnaInicial+avanzar; columna--)
     {
       if (tablero[filaInicial][columna]!=0)
       {
@@ -183,32 +191,35 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
         contarVacias++;
       }
     }
+    cout<< "trazaLineaRecta termina" <<endl;
     return contarVacias;
   }
 
   if (direccion==2) // Arriba
   {
-    avanzar = (-(numeroFilas/10)+(rand()%4)-(rand()%4)); // Selecciona un avance para la matriz,
-    if (filaInicial+avanzar < 0)                         //   el avance no es siempre el mismo
-    { // Evita que el avance se salga de la matriz
+    cout<< "Arriba" <<endl;
+    avanzar = (-(numeroFilas/5)+(rand()%4)-(rand()%4));
+    if (filaInicial+avanzar < 0)
       avanzar = (-filaInicial);
-    }
+
     for (int fila=filaInicial; fila>=filaInicial+avanzar; fila--)
-    { // Vacía las casillas de la matriz correspondientes al camino trazado
+    {
       if (tablero[fila][columnaInicial]!=0)
-      { //Si la casilla No estaba vacía cuenta +1 a las casillas que se vaciaron
+      {
         tablero[fila][columnaInicial]=0;
         contarVacias++;
       }
     }
+    cout<< "trazaLineaRecta termina" <<endl;
     return contarVacias;
   }
 
-  if (direccion==3)
+  if (direccion==3) // Derecha
   {
+    cout<< "Derecha" <<endl;
     avanzar = (numeroColumnas/10+(rand()%4)-(rand()%4));
-    if (columnaInicial+avanzar > numeroColumnas)
-      avanzar = (numeroColumnas - columnaInicial);
+    if (columnaInicial+avanzar >= numeroColumnas)
+      avanzar = (numeroColumnas - columnaInicial-2);
 
     for (int columna=columnaInicial; columna<=columnaInicial+avanzar; columna++)
     {
@@ -218,15 +229,17 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
         contarVacias++;
       }
     }
+    cout<< "trazaLineaRecta termina" <<endl;
     return contarVacias;
   }
 
   if (direccion==0) // Abajo
   {
-    avanzar = (numeroFilas/10+(rand()%4)-(rand()%4));
+    cout<< "Abajo" <<endl;
+    avanzar = (numeroFilas/5+(rand()%4)-(rand()%4));
     if (filaInicial+avanzar > numeroFilas)
       avanzar = (numeroFilas - filaInicial);
-    for (int fila=filaInicial; fila<=filaInicial+avanzar; fila++)
+    for (int fila=filaInicial; fila<filaInicial+avanzar; fila++)
     {
       if (tablero[fila][columnaInicial]!=0)
       {
@@ -234,6 +247,7 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
         contarVacias++;
       }
     }
+    cout<< "trazaLineaRecta termina" <<endl;
     return contarVacias;
   }
 
@@ -243,9 +257,11 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
 
 void Laberinto::imprimir()
 {
+  for(int columna=0; columna<numeroColumnas; columna++)
+    cout << "X";
+  cout << endl;
   for(int fila=0; fila<numeroFilas; fila++)
   {
-    cout << "X";
     for(int columna=0; columna<numeroColumnas; columna++)
     {
       if(tablero[fila][columna] == 0)
@@ -258,8 +274,11 @@ void Laberinto::imprimir()
           cout << tablero[fila][columna];
       }
     }
-    cout << "X" << endl;
+    cout << endl;
   }
+  for(int columna=0; columna<numeroColumnas; columna++)
+    cout << "X";
+  cout<< endl;
 }
 
 

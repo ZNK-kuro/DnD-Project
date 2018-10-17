@@ -28,7 +28,7 @@ int main()
 {
   srand(time(0));
 
-  Laberinto laberinto(20,80,5,3,2,35);
+  Laberinto laberinto(20,80,5,3,2,30);
   cout << endl << "Laberinto vacío" << endl;
   laberinto.imprimir();
   laberinto.fabricarCamino();
