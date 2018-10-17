@@ -104,39 +104,42 @@ void Laberinto::fabricarCamino()
 
 int Laberinto::caminoPrincipal(int filaInicial, int columnaInicial, int direccion)
 { // Función recursiva que crea un camino que va desde el inicio hasta el final de manera ininterrumpida
-  cout<< "caminoPrincipal inicia" <<endl;
+//  cout<< "caminoPrincipal inicia" <<endl; // debug purpose
   int contarVacias = 0;
   int avanzar;
 
   if (columnaInicial == numeroColumnas)
   { // Condición para terminar la recursión
     filaSalida = filaInicial; // Guarda la fila de salida
-    cout<< "caminoPrincipal termina" <<endl;
+//    cout<< "caminoPrincipal termina" <<endl; // debug purpose
     return 0; // Termina la recursión
   }
 
-  if (direccion==2) // Arriba
+
+
+  if (direccion==1) // Izquierda
   {
-    cout<< "arriba" <<endl;
-    avanzar = (-(numeroFilas/5)+(rand()%4)-(rand()%4)); // Selecciona un avance para la matriz,
-    if (filaInicial+avanzar < 0)                         // el avance no es siempre el mismo
-    { // Evita que el avance se salga de la matriz
-      avanzar = (-filaInicial);
-    }
-    for (int fila=filaInicial; fila>=filaInicial+avanzar; fila--)
-    { // Vacía las casillas de la matriz correspondientes al camino trazado
-      if (tablero[fila][columnaInicial]!=0)
-      { //Si la casilla No estaba vacía cuenta +1 a las casillas que se vaciaron
-        tablero[fila][columnaInicial]=0;
+    cout<< "izquierda" <<endl; // debug purpose
+    avanzar = (-(numeroColumnas/15)+(rand()%4)-(rand()%4));
+    if (columnaInicial+avanzar <= 0)
+      avanzar = (-columnaInicial+1);
+
+    for (int columna=columnaInicial; columna>columnaInicial+avanzar; columna--)
+    {
+      if (tablero[filaInicial][columna]!=0)
+      {
+        tablero[filaInicial][columna]=0;
         contarVacias++;
       }
-    } // Continúa la construcción del camino llamandose a si misma otra vez pero con diferentes argumentos
-    contarVacias += caminoPrincipal(filaInicial+avanzar, columnaInicial, escogerDireccion());
+    }
+    contarVacias += caminoPrincipal(filaInicial, columnaInicial+avanzar, escogerDireccion());
+    return contarVacias;
   }
-  if (direccion==3 || direccion==1) // El camino principal nunca va hacia la izquierda, en vez de eso va a la derecha
-  {                                 // Así evita bucles muy largos por devolverse aleatoriamente a la izquierda muchas veces
-    cout<< "izquierda-derecha" <<endl;
-    avanzar = (numeroColumnas/15+(rand()%4)-(rand()%4));
+
+  if (direccion==3) // Derecha
+  {
+    cout<< "derecha" <<endl; // debug purpose
+    avanzar = (numeroColumnas/10+(rand()%4)-(rand()%4));
     if (columnaInicial+avanzar >= numeroColumnas-1)
       avanzar = (numeroColumnas - columnaInicial);
 
@@ -149,13 +152,35 @@ int Laberinto::caminoPrincipal(int filaInicial, int columnaInicial, int direccio
       }
     }
     contarVacias += caminoPrincipal(filaInicial, columnaInicial+avanzar, escogerDireccion());
+    return contarVacias;
   }
+
+  if (direccion==2) // Arriba
+  {
+    cout<< "arriba" <<endl; // debug purpose
+    avanzar = (-(numeroFilas/5)+(rand()%4)-(rand()%4)); // Selecciona un avance para la matriz,
+    if (filaInicial+avanzar < 0)                         // el avance no es siempre el mismo
+    { // Evita que el avance se salga de la matriz
+      avanzar = (-filaInicial);
+    }
+    for (int fila=filaInicial; fila>filaInicial+avanzar; fila--)
+    { // Vacía las casillas de la matriz correspondientes al camino trazado
+      if (tablero[fila][columnaInicial]!=0)
+      { //Si la casilla No estaba vacía cuenta +1 a las casillas que se vaciaron
+        tablero[fila][columnaInicial]=0;
+        contarVacias++;
+      }
+    } // Continúa la construcción del camino llamandose a si misma otra vez pero con diferentes argumentos
+    contarVacias += caminoPrincipal(filaInicial+avanzar, columnaInicial, escogerDireccion());
+    return contarVacias;
+  }
+
   if (direccion==0) // Abajo
   {
-    cout<< "abajo" <<endl;
+    cout<< "abajo" <<endl; // debug purpose
     avanzar = (numeroFilas/5+(rand()%4)-(rand()%4));
-    if (filaInicial+avanzar > numeroFilas)
-      avanzar = (numeroFilas - filaInicial);
+    if (filaInicial+avanzar >= numeroFilas)
+      avanzar = (numeroFilas - filaInicial -1);
 
     for (int fila=filaInicial; fila<filaInicial+avanzar; fila++)
     {
@@ -166,6 +191,7 @@ int Laberinto::caminoPrincipal(int filaInicial, int columnaInicial, int direccio
       }
     }
     contarVacias += caminoPrincipal(filaInicial+avanzar, columnaInicial, escogerDireccion());
+    return contarVacias;
   }
   return contarVacias;
 }
@@ -175,15 +201,16 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
 {
   int contarVacias = 0;
   int avanzar;
-  cout<< "trazaLineaRecta inicia" <<endl;
+//  cout<< "trazaLineaRecta inicia" <<endl; // debug purpose
+
   if (direccion==1) // Izquierda
   {
-    cout<< "Izquierda" <<endl;
+    cout<< "Izquierda" <<endl; // debug purpose
     avanzar = (-(numeroColumnas/10)+(rand()%4)-(rand()%4));
     if (columnaInicial+avanzar <= 0)
-      avanzar = (1-columnaInicial);
+      avanzar = (-columnaInicial);
 
-    for (int columna=columnaInicial; columna>=columnaInicial+avanzar; columna--)
+    for (int columna=columnaInicial; columna>columnaInicial+avanzar; columna--)
     {
       if (tablero[filaInicial][columna]!=0)
       {
@@ -191,18 +218,37 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
         contarVacias++;
       }
     }
-    cout<< "trazaLineaRecta termina" <<endl;
+//    cout<< "trazaLineaRecta termina" <<endl; // debug purpose
+    return contarVacias;
+  }
+
+  if (direccion==3) // Derecha
+  {
+    cout<< "Derecha" <<endl; // debug purpose
+    avanzar = (numeroColumnas/10+(rand()%4)-(rand()%4));
+    if (columnaInicial+avanzar >= numeroColumnas)
+      avanzar = (numeroColumnas - columnaInicial-2);
+
+    for (int columna=columnaInicial; columna<columnaInicial+avanzar; columna++)
+    {
+      if (tablero[filaInicial][columna]!=0)
+      {
+        tablero[filaInicial][columna]=0;
+        contarVacias++;
+      }
+    }
+//    cout<< "trazaLineaRecta termina" <<endl; // debug purpose
     return contarVacias;
   }
 
   if (direccion==2) // Arriba
   {
-    cout<< "Arriba" <<endl;
+    cout<< "Arriba" <<endl; // debug purpose
     avanzar = (-(numeroFilas/5)+(rand()%4)-(rand()%4));
     if (filaInicial+avanzar < 0)
       avanzar = (-filaInicial);
 
-    for (int fila=filaInicial; fila>=filaInicial+avanzar; fila--)
+    for (int fila=filaInicial; fila>filaInicial+avanzar; fila--)
     {
       if (tablero[fila][columnaInicial]!=0)
       {
@@ -210,35 +256,16 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
         contarVacias++;
       }
     }
-    cout<< "trazaLineaRecta termina" <<endl;
-    return contarVacias;
-  }
-
-  if (direccion==3) // Derecha
-  {
-    cout<< "Derecha" <<endl;
-    avanzar = (numeroColumnas/10+(rand()%4)-(rand()%4));
-    if (columnaInicial+avanzar >= numeroColumnas)
-      avanzar = (numeroColumnas - columnaInicial-2);
-
-    for (int columna=columnaInicial; columna<=columnaInicial+avanzar; columna++)
-    {
-      if (tablero[filaInicial][columna]!=0)
-      {
-        tablero[filaInicial][columna]=0;
-        contarVacias++;
-      }
-    }
-    cout<< "trazaLineaRecta termina" <<endl;
+//    cout<< "trazaLineaRecta termina" <<endl; // debug purpose
     return contarVacias;
   }
 
   if (direccion==0) // Abajo
   {
-    cout<< "Abajo" <<endl;
+    cout<< "Abajo" <<endl; // debug purpose
     avanzar = (numeroFilas/5+(rand()%4)-(rand()%4));
-    if (filaInicial+avanzar > numeroFilas)
-      avanzar = (numeroFilas - filaInicial);
+    if (filaInicial+avanzar >= numeroFilas)
+      avanzar = (numeroFilas - filaInicial -1);
     for (int fila=filaInicial; fila<filaInicial+avanzar; fila++)
     {
       if (tablero[fila][columnaInicial]!=0)
@@ -247,7 +274,7 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
         contarVacias++;
       }
     }
-    cout<< "trazaLineaRecta termina" <<endl;
+//    cout<< "trazaLineaRecta termina" <<endl; // debug purpose
     return contarVacias;
   }
 
