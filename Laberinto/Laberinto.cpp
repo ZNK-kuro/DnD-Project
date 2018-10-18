@@ -7,8 +7,8 @@
          michelle.hernandez@correounivalle.edu.co
          nicolas.jaramillo@correounivalle.edu.co
   Fecha creación: 2018/09/17
-  Fecha última modificación: 2018/10/14
-  Versión: 0.1.2
+  Fecha última modificación: 2018/10/18
+  Versión: 0.2.1
   Licencia: GPL
 */
 
@@ -201,77 +201,123 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
 {
   int contarVacias = 0;
   int avanzar;
+  bool bordeInicial = 1; // Si la fila o columna inicial son == 0 este valor vale 0
+  bool bordeFinal = 1; // Si la fila o columna inicial son la última posicion de fila o columna este valor vale 0
 //  cout<< "trazaLineaRecta inicia" <<endl; // debug purpose
 
-  if (direccion==1) // Izquierda
+  if (direccion==1 && columnaInicial>0) // Izquierda
   {
     cout<< "Izquierda" <<endl; // debug purpose
     avanzar = (-(numeroColumnas/10)+(rand()%4)-(rand()%4));
     if (columnaInicial+avanzar <= 0)
       avanzar = (-columnaInicial);
 
-    for (int columna=columnaInicial; columna>columnaInicial+avanzar; columna--)
-    {
-      if (tablero[filaInicial][columna]!=0)
+    if (filaInicial == 0)
+      bordeInicial = 0;
+    if (filaInicial == numeroFilas-1)
+      bordeFinal = 0;
+
+    if (tablero[filaInicial-bordeInicial][columnaInicial-1] == 1 &&
+        tablero[filaInicial]             [columnaInicial-1] == 1 &&
+        tablero[filaInicial+bordeFinal]  [columnaInicial-1] == 1)
       {
-        tablero[filaInicial][columna]=0;
-        contarVacias++;
+        for (int columna=columnaInicial; columna>columnaInicial+avanzar; columna--)
+        {
+          if (tablero[filaInicial][columna]!=0)
+          {
+            tablero[filaInicial][columna]=0;
+            contarVacias++;
+          }
+        }
       }
-    }
+
 //    cout<< "trazaLineaRecta termina" <<endl; // debug purpose
     return contarVacias;
   }
 
-  if (direccion==3) // Derecha
+  if (direccion==3 && columnaInicial<numeroColumnas-1) // Derecha
   {
     cout<< "Derecha" <<endl; // debug purpose
     avanzar = (numeroColumnas/10+(rand()%4)-(rand()%4));
     if (columnaInicial+avanzar >= numeroColumnas)
       avanzar = (numeroColumnas - columnaInicial-2);
 
-    for (int columna=columnaInicial; columna<columnaInicial+avanzar; columna++)
+    if (filaInicial == 0)
+      bordeInicial = 0;
+    if (filaInicial == numeroFilas-1)
+      bordeFinal = 0;
+
+    if (tablero[filaInicial-bordeInicial][columnaInicial+1] == 1 &&
+        tablero[filaInicial]             [columnaInicial+1] == 1 &&
+        tablero[filaInicial+bordeFinal]  [columnaInicial+1] == 1)
     {
-      if (tablero[filaInicial][columna]!=0)
+      for (int columna=columnaInicial; columna<columnaInicial+avanzar; columna++)
       {
-        tablero[filaInicial][columna]=0;
-        contarVacias++;
+        if (tablero[filaInicial][columna]!=0)
+        {
+          tablero[filaInicial][columna]=0;
+          contarVacias++;
+        }
       }
     }
+
 //    cout<< "trazaLineaRecta termina" <<endl; // debug purpose
     return contarVacias;
   }
 
-  if (direccion==2) // Arriba
+  if (direccion==2 && filaInicial>0) // Arriba
   {
     cout<< "Arriba" <<endl; // debug purpose
     avanzar = (-(numeroFilas/5)+(rand()%4)-(rand()%4));
     if (filaInicial+avanzar < 0)
       avanzar = (-filaInicial);
 
-    for (int fila=filaInicial; fila>filaInicial+avanzar; fila--)
+    if (columnaInicial == 0)
+      bordeInicial = 0;
+    if (columnaInicial == numeroColumnas-1)
+      bordeFinal = 0;
+
+    if (tablero[filaInicial-1][columnaInicial-bordeInicial] == 1 &&
+        tablero[filaInicial-1][columnaInicial]              == 1 &&
+        tablero[filaInicial-1][columnaInicial+bordeFinal]   == 1)
     {
-      if (tablero[fila][columnaInicial]!=0)
-      {
-        tablero[fila][columnaInicial]=0;
-        contarVacias++;
-      }
+      for (int fila=filaInicial; fila>filaInicial+avanzar; fila--)
+        {
+          if (tablero[fila][columnaInicial]!=0)
+          {
+            tablero[fila][columnaInicial]=0;
+            contarVacias++;
+          }
+        }
     }
 //    cout<< "trazaLineaRecta termina" <<endl; // debug purpose
     return contarVacias;
   }
 
-  if (direccion==0) // Abajo
+  if (direccion==0 && filaInicial<numeroFilas-1) // Abajo
   {
     cout<< "Abajo" <<endl; // debug purpose
     avanzar = (numeroFilas/5+(rand()%4)-(rand()%4));
     if (filaInicial+avanzar >= numeroFilas)
       avanzar = (numeroFilas - filaInicial -1);
-    for (int fila=filaInicial; fila<filaInicial+avanzar; fila++)
+
+
+    if (columnaInicial == 0)
+      bordeInicial = 0;
+    if (columnaInicial == numeroColumnas-1)
+      bordeFinal = 0;
+
+    if (tablero[filaInicial+1][columnaInicial-bordeInicial] == 1 &&
+        tablero[filaInicial+1][columnaInicial]              == 1 &&
+        tablero[filaInicial+1][columnaInicial+bordeFinal]   == 1)
     {
-      if (tablero[fila][columnaInicial]!=0)
+      for (int fila=filaInicial; fila<filaInicial+avanzar; fila++)
       {
-        tablero[fila][columnaInicial]=0;
-        contarVacias++;
+        if (tablero[fila][columnaInicial]!=0)
+        {
+          tablero[fila][columnaInicial]=0;
+          contarVacias++;
+        }
       }
     }
 //    cout<< "trazaLineaRecta termina" <<endl; // debug purpose
@@ -293,12 +339,10 @@ void Laberinto::imprimir()
     {
       if(tablero[fila][columna] == 0)
         cout << " ";
+      else if(tablero[fila][columna] == 1)
+        cout << "X";
       else
-      {
-        if(tablero[fila][columna] == 1)
-          cout << "X";
-        else
-          cout << tablero[fila][columna];
+        cout << tablero[fila][columna];
       }
     }
     cout << endl;
