@@ -8,7 +8,7 @@
          nicolas.jaramillo@correounivalle.edu.co
   Fecha creación: 2018/09/17
   Fecha última modificación: 2018/10/18
-  Versión: 0.2.1
+  Versión: 0.3
   Licencia: GPL
 */
 
@@ -219,7 +219,10 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
 
     if (tablero[filaInicial-bordeInicial][columnaInicial-1] == 1 &&
         tablero[filaInicial]             [columnaInicial-1] == 1 &&
-        tablero[filaInicial+bordeFinal]  [columnaInicial-1] == 1)
+        tablero[filaInicial+bordeFinal]  [columnaInicial-1] == 1 &&
+        tablero[filaInicial-bordeInicial][columnaInicial] !=
+          tablero[filaInicial+bordeFinal][columnaInicial]
+        )
       {
         for (int columna=columnaInicial; columna>columnaInicial+avanzar; columna--)
         {
@@ -249,7 +252,10 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
 
     if (tablero[filaInicial-bordeInicial][columnaInicial+1] == 1 &&
         tablero[filaInicial]             [columnaInicial+1] == 1 &&
-        tablero[filaInicial+bordeFinal]  [columnaInicial+1] == 1)
+        tablero[filaInicial+bordeFinal]  [columnaInicial+1] == 1 &&
+        tablero[filaInicial-bordeInicial][columnaInicial] !=
+          tablero[filaInicial+bordeFinal][columnaInicial]
+        )
     {
       for (int columna=columnaInicial; columna<columnaInicial+avanzar; columna++)
       {
@@ -279,7 +285,10 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
 
     if (tablero[filaInicial-1][columnaInicial-bordeInicial] == 1 &&
         tablero[filaInicial-1][columnaInicial]              == 1 &&
-        tablero[filaInicial-1][columnaInicial+bordeFinal]   == 1)
+        tablero[filaInicial-1][columnaInicial+bordeFinal]   == 1 &&
+        tablero[filaInicial][columnaInicial-bordeInicial] !=
+          tablero[filaInicial][columnaInicial+bordeFinal]
+        )
     {
       for (int fila=filaInicial; fila>filaInicial+avanzar; fila--)
         {
@@ -309,7 +318,10 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
 
     if (tablero[filaInicial+1][columnaInicial-bordeInicial] == 1 &&
         tablero[filaInicial+1][columnaInicial]              == 1 &&
-        tablero[filaInicial+1][columnaInicial+bordeFinal]   == 1)
+        tablero[filaInicial+1][columnaInicial+bordeFinal]   == 1 &&
+        tablero[filaInicial][columnaInicial-bordeInicial] !=
+          tablero[filaInicial][columnaInicial+bordeFinal]
+        )
     {
       for (int fila=filaInicial; fila<filaInicial+avanzar; fila++)
       {
@@ -343,7 +355,6 @@ void Laberinto::imprimir()
         cout << "X";
       else
         cout << tablero[fila][columna];
-      }
     }
     cout << endl;
   }
