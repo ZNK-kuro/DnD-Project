@@ -7,8 +7,8 @@
          michelle.hernandez@correounivalle.edu.co
          nicolas.jaramillo@correounivalle.edu.co
   Fecha creación: 2018/09/17
-  Fecha última modificación: 2018/10/14
-  Versión: 0.1.2
+  Fecha última modificación: 2018/10/18
+  Versión: 0.4
   Licencia: GPL
 */
 
