@@ -141,7 +141,7 @@ int Laberinto::caminoPrincipal(int filaInicial, int columnaInicial, int direccio
 
   if (direccion==3 || direccion==1) // Derecha (la matriz avanza hacia la derecha en vez de
   {                                 //  a la izquierda mientras hace el camino principal)
-    cout<< "derecha" <<endl; // debug purpose
+//    cout<< "derecha" <<endl; // debug purpose
     avanzar = (numeroColumnas/20+(rand()%(numeroColumnas/10))-(rand()%(numeroColumnas/20)));
     if (columnaInicial+avanzar >= numeroColumnas-1)
       avanzar = (numeroColumnas - columnaInicial);
@@ -160,7 +160,7 @@ int Laberinto::caminoPrincipal(int filaInicial, int columnaInicial, int direccio
 
   if (direccion==2) // Arriba
   {
-    cout<< "arriba" <<endl; // debug purpose
+//    cout<< "arriba" <<endl; // debug purpose
     avanzar = (-(numeroFilas/10)-(rand()%(numeroFilas/10))); // Selecciona un avance para la matriz,
     if (filaInicial+avanzar < 0)                         // el avance no es siempre el mismo
     { // Evita que el avance se salga de la matriz
@@ -180,7 +180,7 @@ int Laberinto::caminoPrincipal(int filaInicial, int columnaInicial, int direccio
 
   if (direccion==0) // Abajo
   {
-    cout<< "abajo" <<endl; // debug purpose
+//    cout<< "abajo" <<endl; // debug purpose
     avanzar = (numeroFilas/10+(rand()%(numeroFilas/10)));
     if (filaInicial+avanzar >= numeroFilas)
       avanzar = (numeroFilas - filaInicial -1);
@@ -206,6 +206,7 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
   int avanzar;
   bool bordeInicial = 1; // Si la fila o columna inicial son == 0 este valor vale 0
   bool bordeFinal = 1; // Si la fila o columna inicial son la última posicion de fila o columna este valor vale 0
+  bool espacioVacio =0; //se usa para comprobar si la fila se va a generar en un espacio vacío o en uno lleno
 //  cout<< "trazaLineaRecta inicia" <<endl; // debug purpose
 
   if (direccion==1 && columnaInicial>0) // Izquierda
@@ -220,12 +221,16 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
     if (filaInicial == numeroFilas-1)
       bordeFinal = 0;
 
-    if (tablero[filaInicial-bordeInicial][columnaInicial-1] == 1 &&
-        tablero[filaInicial]             [columnaInicial-1] == 1 &&
-        tablero[filaInicial+bordeFinal]  [columnaInicial-1] == 1 &&
+    for (int i=-1; i>=avanzar; i--)
+    {
+      if (tablero[filaInicial-bordeInicial][columnaInicial+i] != 1 ||
+          tablero[filaInicial]             [columnaInicial+i] != 1 ||
+          tablero[filaInicial+bordeFinal]  [columnaInicial+i] != 1)
+        espacioVacio = 1;
+    }
+    if (espacioVacio == 0 &&
         tablero[filaInicial-bordeInicial][columnaInicial] !=
-          tablero[filaInicial+bordeFinal][columnaInicial]
-        )
+          tablero[filaInicial+bordeFinal][columnaInicial])
       {
         for (int columna=columnaInicial; columna>columnaInicial+avanzar; columna--)
         {
@@ -253,12 +258,17 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
     if (filaInicial == numeroFilas-1)
       bordeFinal = 0;
 
-    if (tablero[filaInicial-bordeInicial][columnaInicial+1] == 1 &&
-        tablero[filaInicial]             [columnaInicial+1] == 1 &&
-        tablero[filaInicial+bordeFinal]  [columnaInicial+1] == 1 &&
+    for (int i=1; i<=avanzar; i++)
+    {
+      if (tablero[filaInicial-bordeInicial][columnaInicial+i] != 1 ||
+          tablero[filaInicial]             [columnaInicial+i] != 1 ||
+          tablero[filaInicial+bordeFinal]  [columnaInicial+i] != 1)
+        espacioVacio = 1;
+    }
+
+    if (espacioVacio == 0 &&
         tablero[filaInicial-bordeInicial][columnaInicial] !=
-          tablero[filaInicial+bordeFinal][columnaInicial]
-        )
+          tablero[filaInicial+bordeFinal][columnaInicial])
     {
       for (int columna=columnaInicial; columna<columnaInicial+avanzar; columna++)
       {
@@ -287,12 +297,16 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
     if (columnaInicial == numeroColumnas-1)
       bordeFinal = 0;
 
-    if (tablero[filaInicial-1][columnaInicial-bordeInicial] == 1 &&
-        tablero[filaInicial-1][columnaInicial]              == 1 &&
-        tablero[filaInicial-1][columnaInicial+bordeFinal]   == 1 &&
+    for (int i=-1; i>=avanzar; i--)
+    {
+      if (tablero[filaInicial+i][columnaInicial-bordeInicial] != 1 ||
+          tablero[filaInicial+i][columnaInicial]              != 1 ||
+          tablero[filaInicial+i][columnaInicial+bordeFinal]   != 1)
+        espacioVacio = 1;
+    }
+    if (espacioVacio == 0 &&
         tablero[filaInicial][columnaInicial-bordeInicial] !=
-          tablero[filaInicial][columnaInicial+bordeFinal]
-        )
+        tablero[filaInicial][columnaInicial+bordeFinal])
     {
       for (int fila=filaInicial; fila>filaInicial+avanzar; fila--)
         {
@@ -321,12 +335,17 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
     if (columnaInicial == numeroColumnas-1)
       bordeFinal = 0;
 
-    if (tablero[filaInicial+1][columnaInicial-bordeInicial] == 1 &&
-        tablero[filaInicial+1][columnaInicial]              == 1 &&
-        tablero[filaInicial+1][columnaInicial+bordeFinal]   == 1 &&
+    for (int i=1; i<=avanzar; i++)
+    {
+      if (tablero[filaInicial+i][columnaInicial-bordeInicial] != 1 ||
+          tablero[filaInicial+i][columnaInicial]              != 1 ||
+          tablero[filaInicial+i][columnaInicial+bordeFinal]   != 1)
+        espacioVacio = 1;
+    }
+
+    if (espacioVacio == 0 &&
         tablero[filaInicial][columnaInicial-bordeInicial] !=
-          tablero[filaInicial][columnaInicial+bordeFinal]
-        )
+        tablero[filaInicial][columnaInicial+bordeFinal])
     {
       for (int fila=filaInicial; fila<filaInicial+avanzar; fila++)
       {
