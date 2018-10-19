@@ -8,7 +8,7 @@
          nicolas.jaramillo@correounivalle.edu.co
   Fecha creación: 2018/09/17
   Fecha última modificación: 2018/10/18
-  Versión: 0.3
+  Versión: 0.3.9
   Licencia: GPL
 */
 
@@ -34,17 +34,19 @@ Laberinto::Laberinto(int numeroFilas, int numeroColumnas, int numeroTesoros,
       tablero[fila][columna] = 1;
   }
 
-  if (porcentajeCasillasVacias > 50)
+  if (porcentajeCasillasVacias > 40)
   { // Limíta el porcentaje máximo de casillas vacías
-    cout<< "El porcentaje de casillas vacías es muy alto, \
-    se establecerá en el valor máximo de 50%." <<endl;
-    this->porcentajeCasillasVacias = 50;
+    cout<< "\
+El porcentaje de casillas vacías es muy alto, \
+se establecerá en el valor máximo de 40%." <<endl;
+    this->porcentajeCasillasVacias = 40;
   }
 
   if (porcentajeCasillasVacias < 10)
   { // Limíta el porcentaje mínimo de casillas vacías
-    cout<< "El porcentaje de casillas vacías es muy bajo, \
-    se establecerá en el valor mínimo de 10%." <<endl;
+    cout<< "\
+El porcentaje de casillas vacías es muy bajo, \
+se establecerá en el valor mínimo de 10%." <<endl;
     this->porcentajeCasillasVacias = 10;
   }
 }
@@ -66,7 +68,9 @@ void Laberinto::fabricarCamino()
   // Ubica la Entrada y la Salida
   tablero[filaEntrada][0] = 5;
   tablero[filaSalida][numeroColumnas-1] = 6;
-  imprimir();
+  cout<<endl; // debug purpose
+  cout<< "Camino principal terminado" <<endl; // debug purpose
+  imprimir(); // debug purpose
   // Hacer caminos al azar:
   do
   {
@@ -116,8 +120,7 @@ int Laberinto::caminoPrincipal(int filaInicial, int columnaInicial, int direccio
   }
 
 
-
-  if (direccion==1) // Izquierda
+/*  if (direccion==1) // Izquierda
   {
     cout<< "izquierda" <<endl; // debug purpose
     avanzar = (-(numeroColumnas/15)+(rand()%4)-(rand()%4));
@@ -134,12 +137,12 @@ int Laberinto::caminoPrincipal(int filaInicial, int columnaInicial, int direccio
     }
     contarVacias += caminoPrincipal(filaInicial, columnaInicial+avanzar, escogerDireccion());
     return contarVacias;
-  }
+  } */
 
-  if (direccion==3) // Derecha
-  {
+  if (direccion==3 || direccion==1) // Derecha (la matriz avanza hacia la derecha en vez de
+  {                                 //  a la izquierda mientras hace el camino principal)
     cout<< "derecha" <<endl; // debug purpose
-    avanzar = (numeroColumnas/10+(rand()%4)-(rand()%4));
+    avanzar = (numeroColumnas/20+(rand()%(numeroColumnas/10))-(rand()%(numeroColumnas/20)));
     if (columnaInicial+avanzar >= numeroColumnas-1)
       avanzar = (numeroColumnas - columnaInicial);
 
@@ -158,7 +161,7 @@ int Laberinto::caminoPrincipal(int filaInicial, int columnaInicial, int direccio
   if (direccion==2) // Arriba
   {
     cout<< "arriba" <<endl; // debug purpose
-    avanzar = (-(numeroFilas/5)+(rand()%4)-(rand()%4)); // Selecciona un avance para la matriz,
+    avanzar = (-(numeroFilas/10)-(rand()%(numeroFilas/10))); // Selecciona un avance para la matriz,
     if (filaInicial+avanzar < 0)                         // el avance no es siempre el mismo
     { // Evita que el avance se salga de la matriz
       avanzar = (-filaInicial);
@@ -178,7 +181,7 @@ int Laberinto::caminoPrincipal(int filaInicial, int columnaInicial, int direccio
   if (direccion==0) // Abajo
   {
     cout<< "abajo" <<endl; // debug purpose
-    avanzar = (numeroFilas/5+(rand()%4)-(rand()%4));
+    avanzar = (numeroFilas/10+(rand()%(numeroFilas/10)));
     if (filaInicial+avanzar >= numeroFilas)
       avanzar = (numeroFilas - filaInicial -1);
 
@@ -207,8 +210,8 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
 
   if (direccion==1 && columnaInicial>0) // Izquierda
   {
-    cout<< "Izquierda" <<endl; // debug purpose
-    avanzar = (-(numeroColumnas/10)+(rand()%4)-(rand()%4));
+//    cout<< "Izquierda" <<endl; // debug purpose
+    avanzar = (-(numeroColumnas/10)+(rand()%(numeroColumnas/10))-(rand()%(numeroColumnas/10)));
     if (columnaInicial+avanzar <= 0)
       avanzar = (-columnaInicial);
 
@@ -240,8 +243,8 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
 
   if (direccion==3 && columnaInicial<numeroColumnas-1) // Derecha
   {
-    cout<< "Derecha" <<endl; // debug purpose
-    avanzar = (numeroColumnas/10+(rand()%4)-(rand()%4));
+//    cout<< "Derecha" <<endl; // debug purpose
+    avanzar = (numeroColumnas/10+(rand()%(numeroColumnas/10))-(rand()%(numeroColumnas/10)));
     if (columnaInicial+avanzar >= numeroColumnas)
       avanzar = (numeroColumnas - columnaInicial-2);
 
@@ -271,10 +274,11 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
     return contarVacias;
   }
 
-  if (direccion==2 && filaInicial>0) // Arriba
+  if (direccion==2 && filaInicial>0 &&
+      columnaInicial > 1 && columnaInicial < numeroColumnas-2) // Arriba
   {
-    cout<< "Arriba" <<endl; // debug purpose
-    avanzar = (-(numeroFilas/5)+(rand()%4)-(rand()%4));
+//    cout<< "Arriba" <<endl; // debug purpose
+    avanzar = (-(numeroFilas/10)-(rand()%(numeroFilas/10)));
     if (filaInicial+avanzar < 0)
       avanzar = (-filaInicial);
 
@@ -303,10 +307,11 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
     return contarVacias;
   }
 
-  if (direccion==0 && filaInicial<numeroFilas-1) // Abajo
+  if (direccion==0 && filaInicial<numeroFilas-1 &&
+      columnaInicial > 1 && columnaInicial < numeroColumnas-2) // Abajo
   {
-    cout<< "Abajo" <<endl; // debug purpose
-    avanzar = (numeroFilas/5+(rand()%4)-(rand()%4));
+//    cout<< "Abajo" <<endl; // debug purpose
+    avanzar = (numeroFilas/10+(rand()%(numeroFilas/10)));
     if (filaInicial+avanzar >= numeroFilas)
       avanzar = (numeroFilas - filaInicial -1);
 
