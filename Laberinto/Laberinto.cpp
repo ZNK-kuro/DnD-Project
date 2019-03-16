@@ -24,7 +24,7 @@ Laberinto::Laberinto(int numeroFilas, int numeroColumnas, int numeroTesoros,
   this->numeroDragones = numeroDragones;
   this->porcentajeCasillasVacias = porcentajeCasillasVacias;
   casillasVacias = 0;
-  filaEntrada = rand()% numeroFilas;
+  filaEntrada = 1+(rand()% (numeroFilas-2));
   tablero = new int*[numeroFilas];
 
   for(int fila=0; fila<numeroFilas; fila++)
@@ -162,11 +162,11 @@ int Laberinto::caminoPrincipal(int filaInicial, int columnaInicial, int direccio
   {
 //    cout<< "arriba" <<endl; // debug purpose
     avanzar = (-(numeroFilas/10)-(rand()%(numeroFilas/10))); // Selecciona un avance para la matriz,
-    if (filaInicial+avanzar < 0)                         // el avance no es siempre el mismo
+    if (filaInicial+avanzar <= 0)                         // el avance no es siempre el mismo
     { // Evita que el avance se salga de la matriz
-      avanzar = (-filaInicial);
+      avanzar = (-filaInicial+1);
     }
-    for (int fila=filaInicial; fila>filaInicial+avanzar; fila--)
+    for (int fila=filaInicial; fila>=filaInicial+avanzar; fila--)
     { // Vacía las casillas de la matriz correspondientes al camino trazado
       if (tablero[fila][columnaInicial]!=0)
       { //Si la casilla No estaba vacía cuenta +1 a las casillas que se vaciaron
@@ -182,10 +182,10 @@ int Laberinto::caminoPrincipal(int filaInicial, int columnaInicial, int direccio
   {
 //    cout<< "abajo" <<endl; // debug purpose
     avanzar = (numeroFilas/10+(rand()%(numeroFilas/10)));
-    if (filaInicial+avanzar >= numeroFilas)
-      avanzar = (numeroFilas - filaInicial -1);
+    if (filaInicial+avanzar >= numeroFilas-1)
+      avanzar = (numeroFilas - filaInicial -2);
 
-    for (int fila=filaInicial; fila<filaInicial+avanzar; fila++)
+    for (int fila=filaInicial; fila<=filaInicial+avanzar; fila++)
     {
       if (tablero[fila][columnaInicial]!=0)
       {
@@ -289,8 +289,8 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
   {
 //    cout<< "Arriba" <<endl; // debug purpose
     avanzar = (-(numeroFilas/10)-(rand()%(numeroFilas/10)));
-    if (filaInicial+avanzar < 0)
-      avanzar = (-filaInicial);
+    if (filaInicial+avanzar < 1)
+      avanzar = (-filaInicial+1);
 
     if (columnaInicial == 0)
       bordeInicial = 0;
@@ -308,7 +308,7 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
         tablero[filaInicial][columnaInicial-bordeInicial] !=
         tablero[filaInicial][columnaInicial+bordeFinal])
     {
-      for (int fila=filaInicial; fila>filaInicial+avanzar; fila--)
+      for (int fila=filaInicial; fila>=filaInicial+avanzar; fila--)
         {
           if (tablero[fila][columnaInicial]!=0)
           {
@@ -321,13 +321,13 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
     return contarVacias;
   }
 
-  if (direccion==0 && filaInicial<numeroFilas-1 &&
+  if (direccion==0 && filaInicial<numeroFilas &&
       columnaInicial > 1 && columnaInicial < numeroColumnas-2) // Abajo
   {
 //    cout<< "Abajo" <<endl; // debug purpose
     avanzar = (numeroFilas/10+(rand()%(numeroFilas/10)));
-    if (filaInicial+avanzar >= numeroFilas)
-      avanzar = (numeroFilas - filaInicial -1);
+    if (filaInicial+avanzar >= numeroFilas-1)
+      avanzar = (numeroFilas - filaInicial -2);
 
 
     if (columnaInicial == 0)
@@ -347,7 +347,7 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
         tablero[filaInicial][columnaInicial-bordeInicial] !=
         tablero[filaInicial][columnaInicial+bordeFinal])
     {
-      for (int fila=filaInicial; fila<filaInicial+avanzar; fila++)
+      for (int fila=filaInicial; fila<=filaInicial+avanzar; fila++)
       {
         if (tablero[fila][columnaInicial]!=0)
         {
@@ -366,9 +366,6 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
 
 void Laberinto::imprimir()
 {
-  for(int columna=0; columna<numeroColumnas; columna++)
-    cout << "X";
-  cout << endl;
   for(int fila=0; fila<numeroFilas; fila++)
   {
     for(int columna=0; columna<numeroColumnas; columna++)
@@ -382,8 +379,6 @@ void Laberinto::imprimir()
     }
     cout << endl;
   }
-  for(int columna=0; columna<numeroColumnas; columna++)
-    cout << "X";
   cout<< endl;
 }
 
