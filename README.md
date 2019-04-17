@@ -1,2 +1,3 @@
-# upgraded-happiness
-Goofing around with some code, i'm a newbie programer. Learning to use GitHub.
+# D&D Project
+Final Project for IPOO signature.
+There's a maze filled with treasures, but beware the dragon...
