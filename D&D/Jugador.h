@@ -22,7 +22,8 @@
 #ifndef Jugador_HH 
 #define Jugador_HH 
 
-#include <string> 
+#include "Objeto.h"
+#include <string>
 
 
 using namespace std; 

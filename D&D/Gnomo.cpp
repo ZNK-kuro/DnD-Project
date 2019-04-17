@@ -12,21 +12,37 @@
 */
 
 #include "Gnomo.h"
+#include<stdlib.h>
+using namespace std;
 
-Gnomo::Gnomo(int fila_Objeto, int columna_Objeto, string nombre)
+Gnomo::Gnomo(int fila_Objeto, int columna_Objeto, string nombre) : Objeto(fila_Objeto, columna_Objeto, nombre)
 {
-  
+  this-> fila_Objeto = fila_Objeto;
+  this-> columna_Objeto = columna_Objeto;
+  this-> nombre = nombre;
 }
-
 
 Gnomo::~Gnomo()
 {
-  
 }
 
 
-Gnomo::void evento() //evento que ocurre cuando el jugador se encuentra con el objeto
+Gnomo::void codicionDePaso() //evento que ocurre cuando el jugador se encuentra con el objeto
 {
-  
+  Objeto::condicionDePaso();
+  cualPregunta = rand() % (3+1)   //Seleccion de pregunta al zar
+  switch(cualPregunta)
+  {
+    case 1:
+    cout<<"decirme la temperatura de ebullicíon del agua en grados centigrados."; break;
+
+    case 2:
+    cout<<"decirme el numero de dias de la semana."; break;
+
+    case 3:
+    cout<<"decirme cuantos dedos tiene una mano humana."; break;
+  }
+  cout<<"\n";
+
 }
 

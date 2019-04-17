@@ -21,11 +21,18 @@
 #ifndef Dragon_HH
 #define Dragon_HH
 
+#include "Objeto.h"
+#include <string>
+
 class Dragon : public Objeto
 {
   private:
   
   public:
+    Dragon(int fila_Objeto, int columna_Objeto, string nombre);
+    ~Dragon();
+
+    condicionDePaso();
   
 }
 

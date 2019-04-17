@@ -30,8 +30,8 @@ class Tesoro : public Objeto
   public:
     Tesoro(int fila_Objeto, int columna_Objeto, string nombre);
     ~Tesoro();
-    void evento(); //evento que ocurre cuando el jugador se encuentra con el objeto
-     
+    void encontrar(); //evento que ocurre cuando el jugador se encuentra con el objeto
+    
 }
 
 #endif

@@ -31,11 +31,15 @@ class Objeto
     int fila_Objeto;
     int columna_Objeto;
     string nombre;
+    //virtual bool atributo;
   
   public:
     Objeto(int fila_Objeto, int columna_Objeto, string nombre);
     virtual ~Objeto();
-    virtual void evento()=0; //evento que ocurre cuando el jugador se encuentra con el objeto
+
+    //eventos que ocurren cuando el jugador se encuentra con el objeto
+    virtual void condicionDePaso(); 
+    virtual void encontrar();
     
 }
 

@@ -21,12 +21,20 @@
 #ifndef Gnomo_HH
 #define Gnomo_HH
 
-class Gnomo : public Objeto
+#include "Objeto.h"
+#include <string>
+
+class Gnomo : protected Objeto
 {
   private:
   
   
   public:
+    Gnomo(int fila_Objeto, int columna_Objeto, string nombre);
+    ~Gnomo();
+    
+    
+    void condicionDePaso();
   
 }
 

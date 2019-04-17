@@ -13,7 +13,7 @@
 
 #include "Jugador.h"
 
-Jugador::Jugador(int fila_Objeto, int columna_Objeto, string nombre)
+Jugador::Jugador(int fila_Objeto, int columna_Objeto, string nombre) : Objeto(fila_Objeto, columna_Objeto, nombre)
 {
   
 }
