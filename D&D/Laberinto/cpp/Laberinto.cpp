@@ -42,20 +42,20 @@ Laberinto::Laberinto(int numeroFilas, int numeroColumnas, int numeroTesoros,
   objetos = new Objeto[numObjetos];
 
 
-  if (porcentajeCasillasVacias > 37)
+  if (porcentajeCasillasVacias > 35)
   { // Limíta el porcentaje máximo de casillas vacías
     cout<< "\
 El porcentaje de casillas vacías es muy alto, \
-se establecerá en el valor máximo de 37%." <<endl;
-    this->porcentajeCasillasVacias = 37;
+se establecerá en el valor máximo de 35%." <<endl;
+    this->porcentajeCasillasVacias = 35;
   }
 
-  if (porcentajeCasillasVacias < 10)
+  if (porcentajeCasillasVacias < 15)
   { // Limíta el porcentaje mínimo de casillas vacías
     cout<< "\
 El porcentaje de casillas vacías es muy bajo, \
-se establecerá en el valor mínimo de 10%." <<endl;
-    this->porcentajeCasillasVacias = 10;
+se establecerá en el valor mínimo de 15%." <<endl;
+    this->porcentajeCasillasVacias = 15;
   }
 }
 
