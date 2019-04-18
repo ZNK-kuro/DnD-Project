@@ -12,9 +12,9 @@
 
 
   Clase: Objeto
-  
+
   Responsabilidad: xdd
-  
+
   Colaboración: ddx
 */
 
@@ -30,17 +30,18 @@ class Objeto
   protected:
     int fila_Objeto;
     int columna_Objeto;
-    string nombre;
+    //string nombre;
     //virtual bool atributo;
-  
+
   public:
-    Objeto(int fila_Objeto, int columna_Objeto, string nombre);
+    Objeto(int fila_Objeto, int columna_Objeto);
+    Objeto();
     virtual ~Objeto();
 
     //eventos que ocurren cuando el jugador se encuentra con el objeto
-    virtual void condicionDePaso(); 
+    virtual void condicionDePaso();
     virtual void encontrar();
-    
-}
+
+};
 
 #endif

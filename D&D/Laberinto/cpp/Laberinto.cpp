@@ -7,12 +7,16 @@
          michelle.hernandez@correounivalle.edu.co
          nicolas.jaramillo@correounivalle.edu.co
   Fecha creación: 2018/09/17
-  Fecha última modificación: 2018/10/18
-  Versión: 0.4
+  Fecha última modificación: 2019/04/18
+  Versión: 0.5
   Licencia: GPL
 */
 
-#include "Laberinto.h"
+#include "../Laberinto.h"
+#include "../Jugador.h"
+#include "../Tesoro.h"
+#include "../Gnomo.h"
+#include "../Dragon.h"
 
 Laberinto::Laberinto(int numeroFilas, int numeroColumnas, int numeroTesoros,
   int numeroGnomos, int numeroDragones, double porcentajeCasillasVacias)
@@ -24,9 +28,9 @@ Laberinto::Laberinto(int numeroFilas, int numeroColumnas, int numeroTesoros,
   this->numeroDragones = numeroDragones;
   this->porcentajeCasillasVacias = porcentajeCasillasVacias;
   casillasVacias = 0;
-  filaEntrada = 1+(rand()% (numeroFilas-2));
-  tablero = new int*[numeroFilas];
+  filaEntrada = 1 + (rand()% (numeroFilas-2));
 
+  tablero = new int*[numeroFilas];
   for(int fila=0; fila<numeroFilas; fila++)
   { // Llena todo el laberinto con paredes
     tablero[fila] = new int[numeroColumnas];
@@ -34,12 +38,16 @@ Laberinto::Laberinto(int numeroFilas, int numeroColumnas, int numeroTesoros,
       tablero[fila][columna] = 1;
   }
 
-  if (porcentajeCasillasVacias > 35)
+  numObjetos = 1 + numeroTesoros + numeroGnomos + numeroDragones; //1 = número de jugadores (objetos)
+  objetos = new Objeto[numObjetos];
+
+
+  if (porcentajeCasillasVacias > 37)
   { // Limíta el porcentaje máximo de casillas vacías
     cout<< "\
 El porcentaje de casillas vacías es muy alto, \
-se establecerá en el valor máximo de 35%." <<endl;
-    this->porcentajeCasillasVacias = 35;
+se establecerá en el valor máximo de 37%." <<endl;
+    this->porcentajeCasillasVacias = 37;
   }
 
   if (porcentajeCasillasVacias < 10)
@@ -57,6 +65,7 @@ Laberinto::~Laberinto()
   for(int fila=0; fila<numeroFilas; fila++)
     delete tablero[fila];
   delete [] tablero;
+  delete [] objetos;
 }
 
 
@@ -206,7 +215,7 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
   int avanzar;
   bool bordeInicial = 1; // Si la fila o columna inicial son == 0 este valor vale 0
   bool bordeFinal = 1; // Si la fila o columna inicial son la última posicion de fila o columna este valor vale 0
-  bool espacioVacio =0; //se usa para comprobar si la fila se va a generar en un espacio vacío o en uno lleno
+  bool espacioVacio =1; //se usa para comprobar si la fila se va a generar en un espacio vacío o en uno lleno
 //  cout<< "trazaLineaRecta inicia" <<endl; // debug purpose
 
   if (direccion==1 && columnaInicial>0) // Izquierda
@@ -221,16 +230,18 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
     if (filaInicial == numeroFilas-1)
       bordeFinal = 0;
 
-    for (int i=-1; i>=avanzar; i--)
+    for (int i=-1; i>=avanzar-1; i--)
     {
+      //cout<< " |i: " << i <<" menor igual a: " <<avanzar; //debug purpose
       if (tablero[filaInicial-bordeInicial][columnaInicial+i] != 1 ||
           tablero[filaInicial]             [columnaInicial+i] != 1 ||
           tablero[filaInicial+bordeFinal]  [columnaInicial+i] != 1)
-        espacioVacio = 1;
+        espacioVacio = 0;
     }
-    if (espacioVacio == 0 &&
-        tablero[filaInicial-bordeInicial][columnaInicial] !=
+    if (espacioVacio == 1 &&
+        (tablero[filaInicial-bordeInicial][columnaInicial] !=
           tablero[filaInicial+bordeFinal][columnaInicial])
+       )
       {
         for (int columna=columnaInicial; columna>columnaInicial+avanzar; columna--)
         {
@@ -246,7 +257,7 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
     return contarVacias;
   }
 
-  if (direccion==3 && columnaInicial<numeroColumnas-1) // Derecha
+  else if (direccion==3 && columnaInicial<numeroColumnas-1) // Derecha
   {
 //    cout<< "Derecha" <<endl; // debug purpose
     avanzar = (numeroColumnas/10+(rand()%(numeroColumnas/10))-(rand()%(numeroColumnas/10)));
@@ -258,17 +269,18 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
     if (filaInicial == numeroFilas-1)
       bordeFinal = 0;
 
-    for (int i=1; i<=avanzar; i++)
+    for (int i=1; i<=avanzar+1; i++)
     {
       if (tablero[filaInicial-bordeInicial][columnaInicial+i] != 1 ||
           tablero[filaInicial]             [columnaInicial+i] != 1 ||
           tablero[filaInicial+bordeFinal]  [columnaInicial+i] != 1)
-        espacioVacio = 1;
+        espacioVacio = 0;
     }
 
-    if (espacioVacio == 0 &&
-        tablero[filaInicial-bordeInicial][columnaInicial] !=
-          tablero[filaInicial+bordeFinal][columnaInicial])
+    if (espacioVacio == 1 &&
+        (tablero[filaInicial-bordeInicial][columnaInicial] !=
+         tablero[filaInicial+bordeFinal]  [columnaInicial])
+       )
     {
       for (int columna=columnaInicial; columna<columnaInicial+avanzar; columna++)
       {
@@ -284,7 +296,7 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
     return contarVacias;
   }
 
-  if (direccion==2 && filaInicial>0 &&
+  else if (direccion==2 && filaInicial>0 &&
       columnaInicial > 1 && columnaInicial < numeroColumnas-2) // Arriba
   {
 //    cout<< "Arriba" <<endl; // debug purpose
@@ -297,16 +309,17 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
     if (columnaInicial == numeroColumnas-1)
       bordeFinal = 0;
 
-    for (int i=-1; i>=avanzar; i--)
+    for (int i=-1; i>=avanzar-1; i--)
     {
       if (tablero[filaInicial+i][columnaInicial-bordeInicial] != 1 ||
           tablero[filaInicial+i][columnaInicial]              != 1 ||
           tablero[filaInicial+i][columnaInicial+bordeFinal]   != 1)
-        espacioVacio = 1;
+        espacioVacio = 0;
     }
-    if (espacioVacio == 0 &&
-        tablero[filaInicial][columnaInicial-bordeInicial] !=
+    if (espacioVacio == 1 &&
+        (tablero[filaInicial][columnaInicial-bordeInicial] !=
         tablero[filaInicial][columnaInicial+bordeFinal])
+       )
     {
       for (int fila=filaInicial; fila>=filaInicial+avanzar; fila--)
         {
@@ -321,7 +334,7 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
     return contarVacias;
   }
 
-  if (direccion==0 && filaInicial<numeroFilas &&
+  else if (direccion==0 && filaInicial<numeroFilas &&
       columnaInicial > 1 && columnaInicial < numeroColumnas-2) // Abajo
   {
 //    cout<< "Abajo" <<endl; // debug purpose
@@ -335,17 +348,18 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
     if (columnaInicial == numeroColumnas-1)
       bordeFinal = 0;
 
-    for (int i=1; i<=avanzar; i++)
+    for (int i=1; i<=avanzar+1; i++)
     {
       if (tablero[filaInicial+i][columnaInicial-bordeInicial] != 1 ||
           tablero[filaInicial+i][columnaInicial]              != 1 ||
           tablero[filaInicial+i][columnaInicial+bordeFinal]   != 1)
-        espacioVacio = 1;
+        espacioVacio = 0;
     }
 
-    if (espacioVacio == 0 &&
-        tablero[filaInicial][columnaInicial-bordeInicial] !=
+    if (espacioVacio == 1 &&
+        (tablero[filaInicial][columnaInicial-bordeInicial] !=
         tablero[filaInicial][columnaInicial+bordeFinal])
+       )
     {
       for (int fila=filaInicial; fila<=filaInicial+avanzar; fila++)
       {
@@ -370,10 +384,30 @@ void Laberinto::imprimir()
   {
     for(int columna=0; columna<numeroColumnas; columna++)
     {
-      if(tablero[fila][columna] == 0)
+      if (fila == 0 and columna == 0)
+        cout << "╔";
+      else if (fila == 0 and columna == numeroColumnas-1)
+        cout << "╗";
+      else if (fila == numeroFilas-1 and columna == 0)
+        cout << "╚";
+      else if (fila == numeroFilas-1 and columna == numeroColumnas-1)
+        cout << "╝";
+      else if (fila == 0 or fila == numeroFilas-1)
+        cout << "═";
+      else if ((columna == 0 or columna == numeroColumnas-1) and tablero[fila][columna] == 1)
+        cout << "║";
+      else if(tablero[fila][columna] == 0)
         cout << " ";
       else if(tablero[fila][columna] == 1)
-        cout << "X";
+        cout << "╬";
+      else if(tablero[fila][columna] == 2)
+        cout << "T";
+      else if(tablero[fila][columna] == 3)
+        cout << "G";
+      else if(tablero[fila][columna] == 4)
+        cout << "D";
+      else if(tablero[fila][columna] == 5 or tablero[fila][columna] == 6)
+        cout << " ";
       else
         cout << tablero[fila][columna];
     }
@@ -381,6 +415,32 @@ void Laberinto::imprimir()
   }
   cout<< endl;
 }
+/*
+{
+  for(int fila=0; fila<numeroFilas; fila++)
+  {
+    for(int columna=0; columna<numeroColumnas; columna++)
+    {
+      if(tablero[fila][columna] == 0)
+        cout << " ";
+      else if(tablero[fila][columna] == 1)
+        cout << "█";
+      else if(tablero[fila][columna] == 2)
+        cout << "T";
+      else if(tablero[fila][columna] == 3)
+        cout << "G";
+      else if(tablero[fila][columna] == 4)
+        cout << "D";
+      else if(tablero[fila][columna] == 5 or tablero[fila][columna] == 6)
+        cout << " ";
+      else
+        cout << tablero[fila][columna];
+    }
+    cout << endl;
+  }
+  cout<< endl;
+}
+*/
 
 
 void Laberinto::buscarCasillaAlAzar(int &fila, int &columna, int contenido)
@@ -412,6 +472,19 @@ void Laberinto::ponerEnCasillaVaciaAlAzar(int contenido)
 
   buscarCasillaAlAzar(fila, columna, contenido);
   tablero[fila][columna] = contenido;
+  if (contenido == 2)
+  {
+    objetos[objetosColocados] = Tesoro(fila, columna);
+  }
+  else if (contenido == 3)
+  {
+    objetos[objetosColocados] = Gnomo(fila, columna);
+  }
+  else if (contenido == 4)
+  {
+    objetos[objetosColocados] = Dragon(fila, columna);
+  }
+  objetosColocados++;
 }
 
 

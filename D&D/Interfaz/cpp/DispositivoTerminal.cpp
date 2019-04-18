@@ -11,7 +11,7 @@
   Licencia: GPL
 */
 
-#include "DispositivoTerminal.h"
+#include "../DispositivoTerminal.h"
 
 
 DispositivoTerminal::DispositivoTerminal(int grosorSimbolo) : DispositivoEntradaSalida()

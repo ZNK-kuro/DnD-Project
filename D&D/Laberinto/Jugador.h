@@ -28,7 +28,7 @@
 
 using namespace std; 
 
-class Jugador
+class Jugador : public Objeto
 {
     private:
     int fila_Jugador;
@@ -40,7 +40,7 @@ class Jugador
     /*
       Crea al jugador y lo pone en la entrada.
     */
-    Jugador();
+    Jugador(int fila_Objeto, int columna_Objeto);
     /*
       Borra al jugador, al perder la partida o iniciar una nueva partida.
     */
@@ -50,7 +50,7 @@ class Jugador
       si está al lado del dragón le pregunta cuántos tesoros quiere y
       si está en la salida, gana el juego.
     */
-    void interactuar();
-}
+    //void interactuar();
+};
 
 #endif

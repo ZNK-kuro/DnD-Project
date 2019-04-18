@@ -24,18 +24,15 @@
 #include "Objeto.h"
 #include <string>
 
-class Gnomo : protected Objeto
+class Gnomo : public Objeto
 {
   private:
   
   
   public:
-    Gnomo(int fila_Objeto, int columna_Objeto, string nombre);
+    Gnomo(int fila_Objeto, int columna_Objeto);
     ~Gnomo();
-    
-    
-    void condicionDePaso();
-  
-}
+    //void condicionDePaso();
+};
 
 #endif

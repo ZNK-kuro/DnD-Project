@@ -11,26 +11,25 @@
   Licencia: GPL
 */
 
-#include "Gnomo.h"
+#include "../Gnomo.h"
+#include <iostream>
 #include<stdlib.h>
 using namespace std;
 
-Gnomo::Gnomo(int fila_Objeto, int columna_Objeto, string nombre) : Objeto(fila_Objeto, columna_Objeto, nombre)
+Gnomo::Gnomo(int fila_Objeto, int columna_Objeto) : Objeto(fila_Objeto, columna_Objeto)
 {
   this-> fila_Objeto = fila_Objeto;
   this-> columna_Objeto = columna_Objeto;
-  this-> nombre = nombre;
 }
 
 Gnomo::~Gnomo()
 {
 }
-
-
-Gnomo::void codicionDePaso() //evento que ocurre cuando el jugador se encuentra con el objeto
+/*
+void Gnomo::codicionDePaso() //evento que ocurre cuando el jugador se encuentra con el objeto
 {
   Objeto::condicionDePaso();
-  cualPregunta = rand() % (3+1)   //Seleccion de pregunta al zar
+  cualPregunta =1 + (rand() % (3))   //Seleccion de pregunta al zar
   switch(cualPregunta)
   {
     case 1:
@@ -42,7 +41,7 @@ Gnomo::void codicionDePaso() //evento que ocurre cuando el jugador se encuentra 
     case 3:
     cout<<"decirme cuantos dedos tiene una mano humana."; break;
   }
-  cout<<"\n";
+  cout<<endl;
 
 }
-
+*/

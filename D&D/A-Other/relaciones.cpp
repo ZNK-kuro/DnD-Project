@@ -1,6 +1,6 @@
 // ##########################
 
-/* 
+/*
 Una Figura mide lado por lado, y tiene un area, que depende del tipo de figura.
 
 El Cuadrado es una Figura.
@@ -33,10 +33,10 @@ class Circulo : public Figura
 int main()
 {
   Figura u;  // Error porque Figura es una clase abstracta, porque le falta la implementacion de la funcion area()
-  
+
   Cuadrado w;
   w.area();
-  
+
   Circulo z;
   z.area();
 }
@@ -69,7 +69,7 @@ int main()
 {
   Persona u;
   u.comoTeLlamas();
-  
+
   Chofer w;
   w.comoTeLlamas();
   w.manejar();
@@ -96,11 +96,13 @@ class Bicicleta
 /*
 Una Bicicleta conoce un Semaforo (para pasar cuando este verde).
 
-Un objeto U conoce a otro Z si U puede dar ordenes a Z pero hay mas objetos que también pueden dar órdenes a Z. Y ello se consigue poniendo en la parte privada de U un puntero hacia Z.
+Un objeto U conoce a otro Z si U puede dar ordenes a Z pero hay mas objetos que también pueden dar órdenes a Z.
+Y ello se consigue poniendo en la parte privada de U un puntero hacia Z.
 
 Se emplea esta relación cuando vamos a compartir el uso de Z desde varios otros objetos.
 
-Con esta relacion (U conoce Z) cada objeto es independiente, excepto si decidimos que U sea propietario de Z, en cuyo caso el destructor de U debe destruir a Z.
+Con esta relación (U conoce Z) cada objeto es independiente, excepto si decidimos que U sea propietario de Z,
+en cuyo caso el destructor de U debe destruir a Z.
 Pero cada objeto solo puede tener un propietario. Ello hay que ponerlo en comentarios.
 */
 
@@ -113,8 +115,8 @@ class Semaforo
 class Bicicleta
 {
      private:
-         Semaforo *semaforo; // Bicicleta ni es propietaria de Semaforo
-         
+         Semaforo *semaforo; // Bicicleta no es propietaria de Semaforo
+
      public:
          void pedalear() { if(semaforo->color() == "verde") avanzar(); }
 };
@@ -136,9 +138,9 @@ class Persona
     private:
         bool soyPropietario;
         Libro *libro;
-        
+
     public:
-        Persona(Libro *libro, bool soyPropietario) 
+        Persona(Libro *libro, bool soyPropietario)
         {
             this->libro = libro;
             this->soyPropietario = soyPropietario;
@@ -160,5 +162,3 @@ int main()
     Persona Luisa(rayuela, true);
     Persona Felipe(rayuela, false);
 }
-
-

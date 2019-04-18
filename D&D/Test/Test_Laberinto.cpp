@@ -18,8 +18,8 @@
   g++ -std=c++11 ../Laberinto.cpp Test_Laberinto.cpp -o Test_Laberinto
 */
 
-#include "../Laberinto.h"
-#include<cstdlib>
+#include "../Laberinto/Laberinto.h"
+#include <cstdlib>
 #include <iostream>
 using namespace std;
 

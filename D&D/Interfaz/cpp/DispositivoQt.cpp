@@ -11,7 +11,7 @@
   Licencia: GPL
 */
 
-#include "DispositivoQt.h"
+#include "../DispositivoQt.h"
 
 
 DispositivoQt::DispositivoQt() : DispositivoEntradaSalida()

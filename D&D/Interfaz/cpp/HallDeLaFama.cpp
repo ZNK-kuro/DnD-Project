@@ -11,7 +11,7 @@
   Licencia: GPL
 */
 
-#include "HallDeLaFama.h"
+#include "../HallDeLaFama.h"
 
 
 HallDeLaFama::HallDeLaFama(string archivo)

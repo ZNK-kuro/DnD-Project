@@ -7,8 +7,8 @@
          michelle.hernandez@correounivalle.edu.co
          nicolas.jaramillo@correounivalle.edu.co
   Fecha creación: 2018/09/17
-  Fecha última modificación: 2018/10/18
-  Versión: 0.4
+  Fecha última modificación: 2019/04/18
+  Versión: 0.5
   Licencia: GPL
 */
 
@@ -35,9 +35,10 @@
 #ifndef LABERINTO_H
 #define LABERINTO_H
 
-#include<cstdlib>
-#include<cmath>
-#include<iostream>
+#include <cstdlib>
+#include <cmath>
+#include <iostream>
+#include "Objeto.h"
 using namespace std;
 
 
@@ -54,6 +55,9 @@ class Laberinto
     int casillasVacias;
     int filaEntrada;
     int filaSalida;
+    Objeto *objetos;
+    int numObjetos;
+    int objetosColocados = 0;
 
 
   public:

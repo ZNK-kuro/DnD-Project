@@ -1,5 +1,5 @@
 /*
-  Archivo: Dragon.cpp
+  Archivo: Tesoro.cpp
   Autores:  Ángel García Baños
             Crhistian García Urbano
             Nicolás Jaramillo Mayor
@@ -10,26 +10,23 @@
   Versión: 0.1.1
   Licencia: GPL
 */
+#include <iostream>
+#include <string>
+#include "../Tesoro.h"
 
-#include "Dragon.h"
-
-Dragon::Dragon(int fila_Objeto, int columna_Objeto, string nombre) : Objeto(fila_Objeto, columna_Objeto, nombre)
+Tesoro::Tesoro(int fila_Objeto, int columna_Objeto) : Objeto(fila_Objeto, columna_Objeto)
 {
   this-> fila_Objeto = fila_Objeto;
   this-> columna_Objeto = columna_Objeto;
-  this-> nombre = nombre;
 }
 
-
-Dragon::~Dragon()
+Tesoro::~Tesoro()
 {
   
 }
 
-
-Dragon::void condicionDePaso() //condicion de paso que ocurre cuando el jugador se encuentra con el objeto
+void Tesoro::encontrar() //evento que ocurre cuando el jugador se encuentra con el objeto
 {
-  Objeto::condicionDePaso();
-  cout<<"traerme un tesoro"<<endl;
+  Objeto::encontrar();
+  cout<<"un tesoro!!"<<endl;
 }
-

@@ -11,7 +11,7 @@
   Licencia: GPL
 */
 
-#include "DispositivoEntradaSalida.h"
+#include "../DispositivoEntradaSalida.h"
 
 
 DispositivoEntradaSalida::DispositivoEntradaSalida

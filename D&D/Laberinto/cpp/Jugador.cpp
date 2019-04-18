@@ -1,5 +1,5 @@
 /*
-  Archivo: Objeto.cpp
+  Archivo: Jugador.cpp
   Autores:  Ángel García Baños
             Crhistian García Urbano
             Nicolás Jaramillo Mayor
@@ -9,34 +9,19 @@
   Fecha última modificación: 2019-03-23
   Versión: 0.1.1
   Licencia: GPL
-
-
-  Clase: Objeto
-  
-  Responsabilidad: xdd
-  
-  Colaboración: ddx
 */
 
-#include <iostream>
-#include <string>
-#include <"Objeto.h">
+#include "../Jugador.h"
 
-Objeto::Objeto (int fila_Objeto, int columna_Objeto, string nombre)
+Jugador::Jugador(int fila_Objeto, int columna_Objeto) : Objeto(fila_Objeto, columna_Objeto)
 {
   this-> fila_Objeto = fila_Objeto;
   this-> columna_Objeto = columna_Objeto;
-  this-> nombre = nombre;
 }
 
-Objeto::~Objeto()
 
-Objeto::condicionDePaso ()
+Jugador::~Jugador()
 {
-  cout<<"Para pasar debes ";
+  
 }
 
-Objeto::encontrar()
-{
-  cout<<"¡¡Encontraste un ";
-}

@@ -1,5 +1,5 @@
 /*
-  Archivo: Tesoro.h
+  Archivo: Dragon.h
   Autores:  Ángel García Baños
             Crhistian García Urbano
             Nicolás Jaramillo Mayor
@@ -11,27 +11,29 @@
   Licencia: GPL
 
 
-  Clase: Tesoro
+  Clase: Dragon
   
   Responsabilidad: xdd
   
   Colaboración: ddx
 */
 
-#ifndef Tesoro_HH
-#define Tesoro_HH
+#ifndef Dragon_HH
+#define Dragon_HH
 
 #include "Objeto.h"
 #include <string>
 
-class Tesoro : public Objeto
+class Dragon : public Objeto
 {
+  private:
   
   public:
-    Tesoro(int fila_Objeto, int columna_Objeto, string nombre);
-    ~Tesoro();
-    void encontrar(); //evento que ocurre cuando el jugador se encuentra con el objeto
-    
-}
+    Dragon(int fila_Objeto, int columna_Objeto);
+    ~Dragon();
+
+    void condicionDePaso();
+  
+};
 
 #endif

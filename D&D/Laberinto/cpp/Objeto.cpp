@@ -1,5 +1,5 @@
 /*
-  Archivo: Tesoro.cpp
+  Archivo: Objeto.cpp
   Autores:  Ángel García Baños
             Crhistian García Urbano
             Nicolás Jaramillo Mayor
@@ -9,25 +9,40 @@
   Fecha última modificación: 2019-03-23
   Versión: 0.1.1
   Licencia: GPL
+
+
+  Clase: Objeto
+
+  Responsabilidad: xdd
+
+  Colaboración: ddx
 */
+
 #include <iostream>
 #include <string>
-#include <"Objeto.h">
-#include "Tesoro.h"
+#include "../Objeto.h"
 
-Tesoro::Tesoro(int fila_Objeto, int columna_Objeto, string nombre) : Objeto(fila_Objeto, columna_Objeto, nombre)
+Objeto::Objeto()
+{
+  
+}
+Objeto::Objeto (int fila_Objeto, int columna_Objeto)
 {
   this-> fila_Objeto = fila_Objeto;
   this-> columna_Objeto = columna_Objeto;
-  this-> nombre = nombre;
 }
-
-Tesoro::~Tesoro()
-
-Tesoro::encontrar() //evento que ocurre cuando el jugador se encuentra con el objeto
+Objeto::~Objeto()
 {
-  Objeto::encontrar();
-  cout<<"un tesoro!!"<<endl;
+  
 }
 
+void Objeto::condicionDePaso ()
+{
+  cout<<"Para pasar debes ";
+}
+
+void Objeto::encontrar()
+{
+  cout<<"¡¡Encontraste un ";
+}
 
