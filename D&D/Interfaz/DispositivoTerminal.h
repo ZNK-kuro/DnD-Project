@@ -1,16 +1,19 @@
 /*
   Archivo: DispositivoTerminal.h
+
   Autores:  Ángel García Baños
-            Crhistian García Urbano
-            Nicolás Jaramillo Mayor
+            Crhistian García Urbano        1832124
+            Nicolas Jaramillo Mayor        1840558
+
   Email:  nicolas.jaramillo@correounivalle.edu.co
           garcia.crhistian@correounivalle.edu.co
-  Fecha creación: 2018-02-28
-  Fecha última modificación: 2019-03-23
-  Versión: 0.1.1
+
+  Fecha creación:       2018/02/28
+  Última modificación:  2019/04/18
+  Versión: 0.6
   Licencia: GPL
-*/
-/*
+
+
   Clase: DispositivoTerminal
   Responsabilidad: manejar las entradas y salidas del juego Tetris sobre un terminal. Y ello implica leer la entrada (teclado) e imprimir
   en la salida (pantalla). De la entrada se pueden leer las órdenes que envíe el jugador y si quiere volver a jugar. A la salida se puede
@@ -43,14 +46,17 @@ class DispositivoTerminal : public DispositivoEntradaSalida
         Antes de ello, salva el estado del terminal
     */
     DispositivoTerminal(int grosorSimbolo=2);
+    
     /**
         Restaura el terminal a su estado inicial.
     */
     virtual ~DispositivoTerminal();
+    
     /**
         Lee el nombre del jugador.
     */
     string leerNombre();
+    
     /**
         Lee una única tecla del teclado, y la retorna con el siguiente convenio 
           return 1 si es la flecha hacia ARRIBA    ( 0x1b, 0x5b, 0x41 ) para girar en el sentido de las agujas del reloj
@@ -59,26 +65,32 @@ class DispositivoTerminal : public DispositivoEntradaSalida
           return 4 si es la flecha hacia IZQUIERDA ( 0x1b, 0x5b, 0x44 )
     */
     int leerJugada();
+    
     /**
         Lee si el jugador quiere volver a jugar (Si/No).
     */
     bool leerSiVolverAJugar();
+    
     /**
         Imprime una única casilla del tablero dada por sus coordenadas (fila, columna) con un valor dado.
     */
     void imprimirTablero(int fila, int columna, int valor);
+    
     /**
         Imprime una única casilla de la ficha siguiente dada por sus coordenadas (fila, columna) con un valor dado.
     */
     void imprimirFichaSiguiente(int fila, int columna, int valor);
+    
     /**
         Imprime el nombre del jugador.
     */
     void imprimirNombre(string nombre);
+    
     /**
         Imprime los puntos que ha logrado el jugador.
     */
     void imprimirPuntos(int puntos);
+    
     /**
         Imprime la lista de ganadores.
     */

@@ -1,14 +1,19 @@
 /*
   Archivo: Laberinto.cpp
-  Autor: Ángel García Baños
-         Michelle Gonzalez H.        1871074
-         Nicolas Jaramillo M.        1840558
+
+  Autores:  Ángel García Baños
+            Crhistian García Urbano        1832124
+            Nicolas Jaramillo Mayor        1840558
+            Michelle Gonzalez H.     (del taller 3)
+
   Email: angel.garcia@correounivalle.edu.co
-         michelle.hernandez@correounivalle.edu.co
          nicolas.jaramillo@correounivalle.edu.co
-  Fecha creación: 2018/09/17
-  Fecha última modificación: 2019/04/18
-  Versión: 0.5
+         garcia.crhistian@correounivalle.edu.co
+         michelle.hernandez@correounivalle.edu.co
+
+  Fecha creación:       2018/09/17
+  Última modificación:  2019/04/18
+  Versión: 0.6
   Licencia: GPL
 */
 
@@ -38,8 +43,9 @@ Laberinto::Laberinto(int numeroFilas, int numeroColumnas, int numeroTesoros,
       tablero[fila][columna] = 1;
   }
 
-  numObjetos = 1 + numeroTesoros + numeroGnomos + numeroDragones; //1 = número de jugadores (objetos)
+  numObjetos = numeroTesoros + numeroGnomos + numeroDragones;
   objetos = new Objeto[numObjetos];
+  
 
 
   if (porcentajeCasillasVacias > 35)
@@ -62,6 +68,7 @@ se establecerá en el valor mínimo de 15%." <<endl;
 
 Laberinto::~Laberinto()
 { // Destructor
+  jugador.cogerTesoro();
   for(int fila=0; fila<numeroFilas; fila++)
     delete tablero[fila];
   delete [] tablero;
@@ -151,7 +158,7 @@ int Laberinto::caminoPrincipal(int filaInicial, int columnaInicial, int direccio
   if (direccion==3 || direccion==1) // Derecha (la matriz avanza hacia la derecha en vez de
   {                                 //  a la izquierda mientras hace el camino principal)
 //    cout<< "derecha" <<endl; // debug purpose
-    avanzar = (numeroColumnas/20+(rand()%(numeroColumnas/10))-(rand()%(numeroColumnas/20)));
+    avanzar = (numeroColumnas/30+(rand()%(numeroColumnas/40))-(rand()%(numeroColumnas/30)));
     if (columnaInicial+avanzar >= numeroColumnas-1)
       avanzar = (numeroColumnas - columnaInicial);
 
@@ -167,7 +174,7 @@ int Laberinto::caminoPrincipal(int filaInicial, int columnaInicial, int direccio
     return contarVacias;
   }
 
-  if (direccion==2) // Arriba
+  else if (direccion==2) // Arriba
   {
 //    cout<< "arriba" <<endl; // debug purpose
     avanzar = (-(numeroFilas/10)-(rand()%(numeroFilas/10))); // Selecciona un avance para la matriz,
@@ -187,7 +194,7 @@ int Laberinto::caminoPrincipal(int filaInicial, int columnaInicial, int direccio
     return contarVacias;
   }
 
-  if (direccion==0) // Abajo
+  else if (direccion==0) // Abajo
   {
 //    cout<< "abajo" <<endl; // debug purpose
     avanzar = (numeroFilas/10+(rand()%(numeroFilas/10)));
@@ -211,6 +218,7 @@ int Laberinto::caminoPrincipal(int filaInicial, int columnaInicial, int direccio
 
 int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccion)
 {
+  intentosLineas++;
   int contarVacias = 0;
   int avanzar;
   bool bordeInicial = 1; // Si la fila o columna inicial son == 0 este valor vale 0
@@ -221,7 +229,7 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
   if (direccion==1 && columnaInicial>0) // Izquierda
   {
 //    cout<< "Izquierda" <<endl; // debug purpose
-    avanzar = (-(numeroColumnas/10)+(rand()%(numeroColumnas/10))-(rand()%(numeroColumnas/10)));
+    avanzar = (-(numeroColumnas/15)+(rand()%(numeroColumnas/15))-(rand()%(numeroColumnas/20)));
     if (columnaInicial+avanzar <= 0)
       avanzar = (-columnaInicial);
 
@@ -238,9 +246,13 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
           tablero[filaInicial+bordeFinal]  [columnaInicial+i] != 1)
         espacioVacio = 0;
     }
-    if (espacioVacio == 1 &&
-        (tablero[filaInicial-bordeInicial][columnaInicial] !=
-          tablero[filaInicial+bordeFinal][columnaInicial])
+    if (espacioVacio == 1 and // Si el espacio en el que se va a poner el pasillo está vacío y
+        ( // (Es una esquina o el final de un pasillo horizontal o 
+          //está en medio de un pasillo vertical pero No crearía una intersección de 4 esquinas, entonces se crea el pasillo nuevo.)
+          (tablero[filaInicial-bordeInicial][columnaInicial] != tablero[filaInicial+bordeFinal][columnaInicial]) or
+          (tablero[filaInicial-bordeInicial][columnaInicial] == 1 and tablero[filaInicial+bordeFinal][columnaInicial] == 1) or
+          (tablero[filaInicial][columnaInicial+1] == 1 and intentosLineas > 100000)
+        )
        )
       {
         for (int columna=columnaInicial; columna>columnaInicial+avanzar; columna--)
@@ -260,7 +272,7 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
   else if (direccion==3 && columnaInicial<numeroColumnas-1) // Derecha
   {
 //    cout<< "Derecha" <<endl; // debug purpose
-    avanzar = (numeroColumnas/10+(rand()%(numeroColumnas/10))-(rand()%(numeroColumnas/10)));
+    avanzar = (numeroColumnas/15+(rand()%(numeroColumnas/20))-(rand()%(numeroColumnas/15)));
     if (columnaInicial+avanzar >= numeroColumnas)
       avanzar = (numeroColumnas - columnaInicial-2);
 
@@ -277,9 +289,12 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
         espacioVacio = 0;
     }
 
-    if (espacioVacio == 1 &&
-        (tablero[filaInicial-bordeInicial][columnaInicial] !=
-         tablero[filaInicial+bordeFinal]  [columnaInicial])
+    if (espacioVacio == 1 and
+        (
+          (tablero[filaInicial-bordeInicial][columnaInicial] != tablero[filaInicial+bordeFinal][columnaInicial]) or
+          (tablero[filaInicial-bordeInicial][columnaInicial] == 1 and tablero[filaInicial+bordeFinal][columnaInicial] == 1) or
+          (tablero[filaInicial][columnaInicial-1] == 1 and intentosLineas > 100000)
+        )
        )
     {
       for (int columna=columnaInicial; columna<columnaInicial+avanzar; columna++)
@@ -316,9 +331,12 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
           tablero[filaInicial+i][columnaInicial+bordeFinal]   != 1)
         espacioVacio = 0;
     }
-    if (espacioVacio == 1 &&
-        (tablero[filaInicial][columnaInicial-bordeInicial] !=
-        tablero[filaInicial][columnaInicial+bordeFinal])
+    if (espacioVacio == 1 and
+        (
+          (tablero[filaInicial][columnaInicial-bordeInicial] != tablero[filaInicial][columnaInicial+bordeFinal]) or
+          (tablero[filaInicial][columnaInicial-bordeInicial] == 1 and tablero[filaInicial][columnaInicial+bordeFinal] == 1) or
+          (tablero[filaInicial+1][columnaInicial] == 1 and intentosLineas > 100000)
+        )
        )
     {
       for (int fila=filaInicial; fila>=filaInicial+avanzar; fila--)
@@ -356,9 +374,12 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
         espacioVacio = 0;
     }
 
-    if (espacioVacio == 1 &&
-        (tablero[filaInicial][columnaInicial-bordeInicial] !=
-        tablero[filaInicial][columnaInicial+bordeFinal])
+    if (espacioVacio == 1 and
+        (
+          (tablero[filaInicial][columnaInicial-bordeInicial] != tablero[filaInicial][columnaInicial+bordeFinal]) or
+          (tablero[filaInicial][columnaInicial-bordeInicial] == 1 and tablero[filaInicial][columnaInicial+bordeFinal] == 1) or
+          (tablero[filaInicial-1][columnaInicial == 1] and intentosLineas > 100000)
+        )
        )
     {
       for (int fila=filaInicial; fila<=filaInicial+avanzar; fila++)
@@ -392,21 +413,74 @@ void Laberinto::imprimir()
         cout << "╚";
       else if (fila == numeroFilas-1 and columna == numeroColumnas-1)
         cout << "╝";
+      else if (fila == 0 and tablero[fila+1][columna] ==1)
+        cout << "╦";
+      else if (fila == numeroFilas-1 and tablero[fila-1][columna] ==1)
+        cout << "╩";
       else if (fila == 0 or fila == numeroFilas-1)
         cout << "═";
+      else if (columna == 0 and tablero[fila][columna] == 1 and tablero[fila][columna+1] == 1)
+        cout << "╠";
+      else if (columna == numeroColumnas-1 and tablero[fila][columna] == 1 and tablero[fila][columna-1] == 1)
+        cout << "╣";
       else if ((columna == 0 or columna == numeroColumnas-1) and tablero[fila][columna] == 1)
         cout << "║";
-      else if(tablero[fila][columna] == 0)
+      else if (tablero[fila][columna] == 0)
         cout << " ";
-      else if(tablero[fila][columna] == 1)
-        cout << "╬";
-      else if(tablero[fila][columna] == 2)
+      else if (tablero[fila][columna] == 1) // tiene bloque: 1 = arriba, 2 = abajo, 3 = izquierda, 4 = derecha. 0 no tiene bloque
+      {
+        if (tablero[fila-1][columna] == 1) // 1?
+        {
+          if (tablero[fila+1][columna] == 1) // 1,2?
+          {
+            if (tablero[fila][columna-1] == 1) // 1,2,3?
+            {
+              if (tablero[fila][columna+1] == 1) // 1,2,3,4?
+                cout<< "╬"; // 1,2,3,4
+              else
+                cout<< "╣"; // 1,2,3,0
+            }
+            else if (tablero[fila][columna+1] == 1) // 1,2,0,4?
+              cout<< "╠"; // 1,2,0,4
+            else
+              cout<< "║"; // 1,2,0,0
+          }
+          else if (tablero[fila][columna-1] == 1) // 1,0,3?
+          {
+            if (tablero[fila][columna+1] == 1) // 1,0,3,4?
+              cout<< "╩"; // 1,0,3,4
+            else
+              cout<< "╝"; // 1,0,3,0
+          }
+          else if (tablero[fila][columna+1] == 1) // 1,0,0,4?
+            cout<< "╚"; // 1,0,0,4
+          else
+            cout<< "║"; // 1,0,0,0
+        }
+        else if (tablero[fila+1][columna] == 1) // 0,2?
+        {
+          if (tablero[fila][columna-1] == 1) // 0,2,3?
+          {
+            if (tablero[fila][columna+1] == 1) // 0,2,3,4?
+              cout<< "╦"; // 0,2,3,4
+            else
+              cout<< "╗"; // 0,2,3,0
+          }
+          else if (tablero[fila][columna+1] == 1) // 0,2,0,4?
+            cout<< "╔"; // 0,2,0,4
+          else
+            cout<< "║"; // 0,2,0,0
+        }
+        else
+          cout<< "═"; // 0,0,x,x esta es especial, siempre que 1 y 2 sean 0, el resultado será las dos barras laterales.
+      }
+      else if (tablero[fila][columna] == 2)
         cout << "T";
-      else if(tablero[fila][columna] == 3)
+      else if (tablero[fila][columna] == 3)
         cout << "G";
-      else if(tablero[fila][columna] == 4)
+      else if (tablero[fila][columna] == 4)
         cout << "D";
-      else if(tablero[fila][columna] == 5 or tablero[fila][columna] == 6)
+      else if (tablero[fila][columna] == 5 or tablero[fila][columna] == 6)
         cout << " ";
       else
         cout << tablero[fila][columna];
@@ -415,32 +489,6 @@ void Laberinto::imprimir()
   }
   cout<< endl;
 }
-/*
-{
-  for(int fila=0; fila<numeroFilas; fila++)
-  {
-    for(int columna=0; columna<numeroColumnas; columna++)
-    {
-      if(tablero[fila][columna] == 0)
-        cout << " ";
-      else if(tablero[fila][columna] == 1)
-        cout << "█";
-      else if(tablero[fila][columna] == 2)
-        cout << "T";
-      else if(tablero[fila][columna] == 3)
-        cout << "G";
-      else if(tablero[fila][columna] == 4)
-        cout << "D";
-      else if(tablero[fila][columna] == 5 or tablero[fila][columna] == 6)
-        cout << " ";
-      else
-        cout << tablero[fila][columna];
-    }
-    cout << endl;
-  }
-  cout<< endl;
-}
-*/
 
 
 void Laberinto::buscarCasillaAlAzar(int &fila, int &columna, int contenido)

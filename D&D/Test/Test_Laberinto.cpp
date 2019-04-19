@@ -7,8 +7,8 @@
          michelle.hernandez@correounivalle.edu.co
          nicolas.jaramillo@correounivalle.edu.co
   Fecha creación: 2018/09/17
-  Fecha última modificación: 2018/10/18
-  Versión: 0.4
+  Fecha última modificación: 2019/04/18
+  Versión: 0.6
   Licencia: GPL
 */
 
@@ -28,12 +28,13 @@ int main()
 {
   srand(time(0));
 
-  Laberinto laberinto(20,80,5,3,2,35);
+  Laberinto laberinto(20,80,5,3,2,50);
   cout << endl << "Laberinto vacío" << endl;
   laberinto.imprimir();
   laberinto.fabricarCamino();
   cout << endl << "Laberinto terminado" << endl;
   laberinto.imprimir();
+  
 
   return 0;
 }

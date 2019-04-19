@@ -1,13 +1,16 @@
 /*
   Archivo: Jugador.h
+
   Autores:  Ángel García Baños
-            Crhistian García Urbano
-            Nicolás Jaramillo Mayor
+            Crhistian García Urbano        1832124
+            Nicolas Jaramillo Mayor        1840558
+
   Email:  nicolas.jaramillo@correounivalle.edu.co
           garcia.crhistian@correounivalle.edu.co
-  Fecha creación: 2018-02-28
-  Fecha última modificación: 2019-03-23
-  Versión: 0.1.1
+
+  Fecha creación:       2018/02/28
+  Última modificación:  2019/04/18
+  Versión: 0.6
   Licencia: GPL
 
 
@@ -28,19 +31,19 @@
 
 using namespace std; 
 
-class Jugador : public Objeto
+class Jugador
 {
     private:
     int fila_Jugador;
     int columna_Jugador;
-    int tesoros;
+    int tesoros = 0;
     
     
     public:
     /*
       Crea al jugador y lo pone en la entrada.
     */
-    Jugador(int fila_Objeto, int columna_Objeto);
+    Jugador(int fila_Jugador, int columna_Jugador);
     /*
       Borra al jugador, al perder la partida o iniciar una nueva partida.
     */
@@ -51,6 +54,10 @@ class Jugador : public Objeto
       si está en la salida, gana el juego.
     */
     //void interactuar();
+    void cogerTesoro();
+  bool darTesdoro(int numTesoros);
+    void responderPregunta();
+    void nuevaPosicion(int fila, int columna);
 };
 
 #endif

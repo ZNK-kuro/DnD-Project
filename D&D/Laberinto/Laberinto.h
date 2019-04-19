@@ -1,21 +1,24 @@
 /*
   Archivo: Laberinto.h
-  Autor: Ángel García Baños
-         Michelle Gonzalez H.        1871074
-         Nicolas Jaramillo M.        1840558
-  Email: angel.garcia@correounivalle.edu.co
-         michelle.hernandez@correounivalle.edu.co
-         nicolas.jaramillo@correounivalle.edu.co
-  Fecha creación: 2018/09/17
-  Fecha última modificación: 2019/04/18
-  Versión: 0.5
-  Licencia: GPL
-*/
+  
+  Autores:  Ángel García Baños
+            Crhistian García Urbano        1832124
+            Nicolas Jaramillo Mayor        1840558
+            Michelle Gonzalez H.     (del taller 3)
 
-/*
+  Email: angel.garcia@correounivalle.edu.co
+         nicolas.jaramillo@correounivalle.edu.co
+         garcia.crhistian@correounivalle.edu.co
+         michelle.hernandez@correounivalle.edu.co
+
+  Fecha creación:       2018/09/17
+  Última modificación:  2019/04/18
+  Versión: 0.6
+  Licencia: GPL
+
   Clase: Laberinto
   Responsabilidad:
-    - Mantener los datos de un laberinto que son numero de filas, numero de olumnas, número de tesoros, gnomos y dragones, así como
+    - Mantener los datos de un laberinto que son numero de filas, numero de columnas, número de tesoros, gnomos y dragones, así como
       el porcentaje de casillas que van a estar vacías, respecto al total de casillas (numero de filas * numero de columnas).
       En cada casilla puede haber:
         0 = vacía
@@ -39,6 +42,7 @@
 #include <cmath>
 #include <iostream>
 #include "Objeto.h"
+#include "Jugador.h"
 using namespace std;
 
 
@@ -58,6 +62,8 @@ class Laberinto
     Objeto *objetos;
     int numObjetos;
     int objetosColocados = 0;
+    int intentosLineas = 0;
+    Jugador jugador = Jugador(filaEntrada,1);
 
 
   public:

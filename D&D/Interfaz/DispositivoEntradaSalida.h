@@ -1,16 +1,19 @@
 /*
   Archivo: DispositivoEntradaSalida.h
+
   Autores:  Ángel García Baños
-            Crhistian García Urbano
-            Nicolás Jaramillo Mayor
+            Crhistian García Urbano        1832124
+            Nicolas Jaramillo Mayor        1840558
+
   Email:  nicolas.jaramillo@correounivalle.edu.co
           garcia.crhistian@correounivalle.edu.co
-  Fecha creación: 2018-02-28
-  Fecha última modificación: 2019-03-23
-  Versión: 0.1.1
+
+  Fecha creación:       2018/02/28
+  Última modificación:  2019/04/18
+  Versión: 0.6
   Licencia: GPL
-*/
-/*
+
+
   Clase: DispositivoEntradaSalida
   Responsabilidad: manejar las entradas y salidas del juego Tetris sobre un terminal. Y ello implica leer la entrada e imprimir
   en la salida. Es una clase abstracta que debe implementarse en las clases derivadas.
