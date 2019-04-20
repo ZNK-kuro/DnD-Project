@@ -9,12 +9,12 @@
           garcia.crhistian@correounivalle.edu.co
 
   Fecha creación:       2018/02/28
-  Última modificación:  2019/04/18
-  Versión: 0.6
+  Última modificación:  2019/04/20
+  Versión: 0.6.2
   Licencia: GPL
 */
 
-#include "../HallDeLaFama.h"
+#include "h/HallDeLaFama.h"
 
 
 HallDeLaFama::HallDeLaFama(string archivo)
@@ -115,7 +115,7 @@ string HallDeLaFama::listaDeGanadores()
   string resultado = "";
 
   for(int cual=0; cual<numeroDeGanadores; cual++)
-    resultado += ganadores[cual] + "\t" + to_string(puntos[cual]) + "\n";
+    resultado += "" + ganadores[cual] + "\t" + to_string(puntos[cual]) + "\n";
 
   return resultado;
 }

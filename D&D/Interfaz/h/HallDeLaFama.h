@@ -9,8 +9,8 @@
           garcia.crhistian@correounivalle.edu.co
 
   Fecha creación:       2018/02/28
-  Última modificación:  2019/04/18
-  Versión: 0.6
+  Última modificación:  2019/04/20
+  Versión: 0.6.2
   Licencia: GPL
 
 
@@ -48,7 +48,7 @@ class HallDeLaFama
         Es decir, hay un tabulador que separa el nombre del ganador de su puntaje.
         Veremos que esta clase es hackeable. Y después veremos como evitar el hackeo.
     */
-    HallDeLaFama(string archivo="LosGanadoresDelTetris.txt");
+    HallDeLaFama(string archivo="D&D-HallDeLaFama.txt");
     /**
         Salva los ganadores y sus puntajes en el archivo.
     */

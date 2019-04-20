@@ -12,8 +12,8 @@
          michelle.hernandez@correounivalle.edu.co
 
   Fecha creación:       2018/09/17
-  Última modificación:  2019/04/18
-  Versión: 0.6
+  Última modificación:  2019/04/20
+  Versión: 0.6.2
   Licencia: GPL
 
   Clase: Laberinto

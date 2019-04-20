@@ -1,5 +1,5 @@
 /*
-  Archivo: Dragon.h
+  Archivo: Gnomo.h
 
   Autores:  Ángel García Baños
             Crhistian García Urbano        1832124
@@ -9,34 +9,33 @@
           garcia.crhistian@correounivalle.edu.co
 
   Fecha creación:       2018/02/28
-  Última modificación:  2019/04/18
-  Versión: 0.6
+  Última modificación:  2019/04/20
+  Versión: 0.6.2
   Licencia: GPL
 
 
-  Clase: Dragon
+  Clase: Gnomo
   
   Responsabilidad: xdd
   
   Colaboración: ddx
 */
 
-#ifndef Dragon_HH
-#define Dragon_HH
+#ifndef Gnomo_HH
+#define Gnomo_HH
 
 #include "Objeto.h"
 #include <string>
 
-class Dragon : public Objeto
+class Gnomo : public Objeto
 {
   private:
   
-  public:
-    Dragon(int fila_Objeto, int columna_Objeto);
-    ~Dragon();
-
-    void condicionDePaso();
   
+  public:
+    Gnomo(int fila_Objeto, int columna_Objeto);
+    ~Gnomo();
+    //void condicionDePaso();
 };
 
 #endif

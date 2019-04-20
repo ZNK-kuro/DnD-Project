@@ -9,8 +9,8 @@
           garcia.crhistian@correounivalle.edu.co
 
   Fecha creación:       2018/02/28
-  Última modificación:  2019/04/18
-  Versión: 0.6
+  Última modificación:  2019/04/20
+  Versión: 0.6.2
   Licencia: GPL
 
 
@@ -30,6 +30,7 @@ using namespace std;
 class DispositivoEntradaSalida
 {
   protected:
+  /*
     int fila_Tablero;
     int columna_Tablero;
     int alto_Tablero;
@@ -39,6 +40,7 @@ class DispositivoEntradaSalida
     int columna_FichaSiguiente;
     int alto_FichaSiguiente;
     int ancho_FichaSiguiente;
+  */
     
     int fila_nombre;
     int columna_nombre;
@@ -55,9 +57,10 @@ class DispositivoEntradaSalida
     
     int fila_mensaje; 
     int columna_mensaje;
-
+    
   public:
-    DispositivoEntradaSalida(int fila_Tablero=2,
+    DispositivoEntradaSalida(/*
+                             int fila_Tablero=2,
                              int columna_Tablero=2,
                              int alto_Tablero=20,
                              int ancho_Tablero=10,
@@ -66,17 +69,18 @@ class DispositivoEntradaSalida
                              int columna_FichaSiguiente=20,
                              int alto_FichaSiguiente=4,
                              int ancho_FichaSiguiente=4,
+                             */
                              
-                             int fila_nombre=8,
-                             int columna_nombre=20,
-                             int ancho_nombre=10,
+                             int fila_nombre=0,
+                             int columna_nombre=17,
+                             int ancho_nombre=3,
                              
-                             int fila_puntos=9,
-                             int columna_puntos=20,
+                             int fila_puntos=0,
+                             int columna_puntos=30,
                              int ancho_puntos=10,
                              
-                             int fila_ganadores=25,
-                             int columna_ganadores=1,
+                             int fila_ganadores=11,
+                             int columna_ganadores=7,
                              int ancho_ganadores=10,
                              int alto_ganadores=10,
                              
@@ -88,7 +92,7 @@ class DispositivoEntradaSalida
     virtual int leerJugada() = 0;
     virtual bool leerSiVolverAJugar() = 0;
     virtual void imprimirTablero(int fila, int columna, int valor) = 0;
-    virtual void imprimirFichaSiguiente(int fila, int columna, int valor) = 0;
+    //virtual void imprimirFichaSiguiente(int fila, int columna, int valor) = 0;
     virtual void imprimirNombre(string nombre) = 0;
     virtual void imprimirPuntos(int puntos) = 0;
     virtual void imprimirGanadores(string ganadores) = 0;

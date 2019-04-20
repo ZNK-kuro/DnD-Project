@@ -9,12 +9,12 @@
           garcia.crhistian@correounivalle.edu.co
 
   Fecha creación:       2018/02/28
-  Última modificación:  2019/04/18
-  Versión: 0.6
+  Última modificación:  2019/04/20
+  Versión: 0.6.2
   Licencia: GPL
 */
 #include <iostream>
-#include "../Dragon.h"
+#include "h/Dragon.h"
 
 Dragon::Dragon(int fila_Objeto, int columna_Objeto) : Objeto(fila_Objeto, columna_Objeto)
 {

@@ -9,8 +9,8 @@
           garcia.crhistian@correounivalle.edu.co
 
   Fecha creación:       2018/02/28
-  Última modificación:  2019/04/18
-  Versión: 0.6
+  Última modificación:  2019/04/20
+  Versión: 0.6.2
   Licencia: GPL
 
 
@@ -79,7 +79,7 @@ class DispositivoTerminal : public DispositivoEntradaSalida
     /**
         Imprime una única casilla de la ficha siguiente dada por sus coordenadas (fila, columna) con un valor dado.
     */
-    void imprimirFichaSiguiente(int fila, int columna, int valor);
+//    void imprimirFichaSiguiente(int fila, int columna, int valor);
     
     /**
         Imprime el nombre del jugador.
@@ -95,8 +95,10 @@ class DispositivoTerminal : public DispositivoEntradaSalida
         Imprime la lista de ganadores.
     */
     void imprimirGanadores(string ganadores);
+    
+    int menu();
   
-  protected:
+//  protected:
     void imprimirSimbolo(int fila, int columna, string mensaje);
     void imprimirMensaje(int fila, int columna, string mensaje);
 };

@@ -9,12 +9,12 @@
           garcia.crhistian@correounivalle.edu.co
 
   Fecha creación:       2018/02/28
-  Última modificación:  2019/04/18
-  Versión: 0.6
+  Última modificación:  2019/04/20
+  Versión: 0.6.2
   Licencia: GPL
 */
 
-#include "../DispositivoTerminal.h"
+#include "h/DispositivoTerminal.h"
 
 
 DispositivoTerminal::DispositivoTerminal(int grosorSimbolo) : DispositivoEntradaSalida()
@@ -32,7 +32,7 @@ DispositivoTerminal::DispositivoTerminal(int grosorSimbolo) : DispositivoEntrada
     perror("Imposible programar el terminal en modo de un solo caracter");
     
   printf("%c[%dm", 0x1B, 5);  // Oculta el cursor
-
+/*
   // Dibujar borde de tablero:
   int n=1;
   for(int columna=columna_Tablero-1; columna<=columna_Tablero+ancho_Tablero; columna++)
@@ -45,7 +45,9 @@ DispositivoTerminal::DispositivoTerminal(int grosorSimbolo) : DispositivoEntrada
   {
     imprimirSimbolo(fila, columna_Tablero-1, "█");
     imprimirSimbolo(fila, columna_Tablero+ancho_Tablero, "█");
-  }
+  } 
+*/
+
 }
 
 
@@ -61,7 +63,7 @@ DispositivoTerminal::~DispositivoTerminal()
 string DispositivoTerminal::leerNombre()
 {
   imprimirSimbolo(fila_mensaje, columna_mensaje, "");
-  printf("Dime tu nombre: ");
+  imprimirMensaje(0, 0, "Dime tu nombre: ▒▒▒");
   streambuf *teclado = cin.rdbuf();
   string nombre="";
   
@@ -115,9 +117,9 @@ int DispositivoTerminal::leerJugada()
 
 bool DispositivoTerminal::leerSiVolverAJugar()
 {
+  imprimirSimbolo(fila_mensaje, columna_mensaje, "¿Quieres volver a jugar? (S/N): ");
   while(true)
   {
-    imprimirSimbolo(fila_mensaje, columna_mensaje, "¿Quieres volver a jugar? (S/N): ");
     streambuf *teclado = cin.rdbuf();
     char caracter = teclado->sbumpc();
     if(caracter == 's' or caracter == 'S')
@@ -130,15 +132,15 @@ bool DispositivoTerminal::leerSiVolverAJugar()
 
 void DispositivoTerminal::imprimirTablero(int fila, int columna, int valor)
 {
-  if(fila<0 or fila>=alto_Tablero or columna<0 or columna>=ancho_Tablero)
-    return;
+ /* if(fila<0 or fila>=alto_Tablero or columna<0 or columna>=ancho_Tablero)
+    return;*/
   if(valor==0)
-    imprimirSimbolo(fila_Tablero+fila, columna_Tablero+columna, " ");
+    imprimirSimbolo(/*fila_Tablero+*/fila, /*columna_Tablero+*/columna, " ");
   else
-    imprimirSimbolo(fila_Tablero+fila, columna_Tablero+columna, to_string(valor));
+    imprimirSimbolo(/*fila_Tablero+*/fila, /*columna_Tablero+*/columna, to_string(valor));
 }
 
-
+/*
 void DispositivoTerminal::imprimirFichaSiguiente(int fila, int columna, int valor)
 {
   if(fila<0 or fila>=alto_FichaSiguiente or columna<0 or columna>=ancho_FichaSiguiente)
@@ -148,6 +150,7 @@ void DispositivoTerminal::imprimirFichaSiguiente(int fila, int columna, int valo
   else
     imprimirSimbolo(fila_FichaSiguiente+fila, columna_FichaSiguiente+columna, to_string(valor));
 }
+*/
 
 
 void DispositivoTerminal::imprimirNombre(string nombre)
@@ -169,6 +172,55 @@ void DispositivoTerminal::imprimirGanadores(string ganadores)
   imprimirMensaje(fila_ganadores, columna_ganadores, ganadores);
 }
 
+int DispositivoTerminal::menu() // Escoger acción
+{
+  imprimirMensaje(0,0,"\
+╔══════════════════════════╗\n\
+║         DUNGEON          ║\n\
+║           AND            ║\n\
+║         DRAGONS          ║\n\
+║                          ║\n\
+║         1. Jugar         ║\n\
+║    2. Hall de la fama    ║\n\
+║         3. Salir         ║\n\
+║                          ║\n\
+╚══════════════════════════╝"); 
+  while(true) // Jugar > Escoger dificultad
+  {
+    streambuf *teclado = cin.rdbuf();
+    char caracter = teclado->sbumpc();
+    if(caracter == '1')
+    {
+      system("clear");
+      imprimirMensaje(0,0,"\
+╔══════════════════════════╗\n\
+║         DUNGEON          ║\n\
+║           AND            ║\n\
+║         DRAGONS          ║\n\
+║                          ║\n\
+║        1. Fácil          ║\n\
+║        2. Normal         ║\n\
+║        3. Difícil        ║\n\
+║                          ║\n\
+╚══════════════════════════╝");
+      while(true)
+      {
+        streambuf *teclado = cin.rdbuf();
+        char caracter = teclado->sbumpc();
+        if(caracter == '1') // Jugar > Fácil
+          return 1;
+        if(caracter == '2') // Jugar > Medio
+          return 2;
+        if(caracter == '3') // Jugar > Difícil
+          return 3;
+      }
+    }
+    if(caracter == '2') // Hall de la fama
+      return 4;
+    if(caracter == '3') // Salir
+      return 5;
+  }
+}
 
 void DispositivoTerminal::imprimirSimbolo(int fila, int columna, string mensaje)
 {
@@ -176,6 +228,7 @@ void DispositivoTerminal::imprimirSimbolo(int fila, int columna, string mensaje)
     for(int x=0; x<grosorSimbolo; x++)
       printf("%c[%d;%dH%s", 0x1B, fila*grosorSimbolo+y, columna*grosorSimbolo+x, mensaje.c_str());
 }
+
 
 
 void DispositivoTerminal::imprimirMensaje(int fila, int columna, string mensaje)

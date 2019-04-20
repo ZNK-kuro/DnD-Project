@@ -34,7 +34,21 @@ int main()
 {
   prueba A1(10);
   A1.imprimirObjeto();
-  cout<< "Final" <<endl;
+  cout<< "ooooooooooooooFinalespero\ryavalisteverga" <<endl;
+  
+  
+  
+  cout<< "\
+╔══════════════════════════╗\n\
+║         DUNGEON          ║\n\
+║           AND            ║\n\
+║         DRAGONS          ║\n\
+║                          ║\n\
+║         1. Jugar         ║\n\
+║    2. Hall de la fama    ║\n\
+║         3. Salir         ║\n\
+║                          ║\n\
+╚══════════════════════════╝\n";
   return 0;
 }
 

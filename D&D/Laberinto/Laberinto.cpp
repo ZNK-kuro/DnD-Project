@@ -12,16 +12,16 @@
          michelle.hernandez@correounivalle.edu.co
 
   Fecha creación:       2018/09/17
-  Última modificación:  2019/04/18
-  Versión: 0.6
+  Última modificación:  2019/04/20
+  Versión: 0.6.2
   Licencia: GPL
 */
 
-#include "../Laberinto.h"
-#include "../Jugador.h"
-#include "../Tesoro.h"
-#include "../Gnomo.h"
-#include "../Dragon.h"
+#include "h/Laberinto.h"
+#include "h/Jugador.h"
+#include "h/Tesoro.h"
+#include "h/Gnomo.h"
+#include "h/Dragon.h"
 
 Laberinto::Laberinto(int numeroFilas, int numeroColumnas, int numeroTesoros,
   int numeroGnomos, int numeroDragones, double porcentajeCasillasVacias)
@@ -68,7 +68,6 @@ se establecerá en el valor mínimo de 15%." <<endl;
 
 Laberinto::~Laberinto()
 { // Destructor
-  jugador.cogerTesoro();
   for(int fila=0; fila<numeroFilas; fila++)
     delete tablero[fila];
   delete [] tablero;
@@ -85,8 +84,8 @@ void Laberinto::fabricarCamino()
   tablero[filaEntrada][0] = 5;
   tablero[filaSalida][numeroColumnas-1] = 6;
   cout<<endl; // debug purpose
-  cout<< "Camino principal terminado" <<endl; // debug purpose
-  imprimir(); // debug purpose
+  //cout<< "Camino principal terminado" <<endl; // debug purpose
+  //imprimir(); // debug purpose
   // Hacer caminos al azar:
   do
   {
