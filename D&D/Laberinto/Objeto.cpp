@@ -25,20 +25,16 @@
 #include <string>
 #include "h/Objeto.h"
 
-Objeto::Objeto()
+Objeto::Objeto(Jugador *jugador)
 {
-  
-}
-Objeto::Objeto (int fila_Objeto, int columna_Objeto)
-{
-  this-> fila_Objeto = fila_Objeto;
-  this-> columna_Objeto = columna_Objeto;
-}
-Objeto::~Objeto()
-{
-  
+  this->jugador = jugador;
 }
 
+Objeto::~Objeto()
+{
+}
+
+/*
 void Objeto::condicionDePaso ()
 {
   cout<<"Para pasar debes ";
@@ -47,9 +43,5 @@ void Objeto::condicionDePaso ()
 void Objeto::encontrar()
 {
   cout<<"¡¡Encontraste un ";
-}
+} */
 
-void Objeto::posicionActual()
-{
-  cout<<fila_Objeto<<", "<<columna_Objeto<<endl;
-}

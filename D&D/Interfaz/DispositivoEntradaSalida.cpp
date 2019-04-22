@@ -37,6 +37,9 @@ DispositivoEntradaSalida::DispositivoEntradaSalida
   int fila_puntos, 
   int columna_puntos, 
   int ancho_puntos,
+  
+  int fila_tesoros,
+  int columna_tesoros,
  
   int fila_ganadores, 
   int columna_ganadores, 
@@ -64,6 +67,9 @@ DispositivoEntradaSalida::DispositivoEntradaSalida
     fila_puntos(fila_puntos),
     columna_puntos(columna_puntos),
     ancho_puntos(ancho_puntos),
+    
+    fila_tesoros(fila_tesoros),
+    columna_tesoros(columna_tesoros),
     
     fila_ganadores(fila_ganadores),
     columna_ganadores(columna_ganadores),

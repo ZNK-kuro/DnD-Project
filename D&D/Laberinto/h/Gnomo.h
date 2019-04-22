@@ -24,8 +24,10 @@
 #ifndef Gnomo_HH
 #define Gnomo_HH
 
-#include "Objeto.h"
 #include <string>
+#include "Objeto.h"
+#include "Jugador.h"
+using namespace std;
 
 class Gnomo : public Objeto
 {
@@ -33,7 +35,7 @@ class Gnomo : public Objeto
   
   
   public:
-    Gnomo(int fila_Objeto, int columna_Objeto);
+    Gnomo(Jugador *jugador);
     ~Gnomo();
     //void condicionDePaso();
 };

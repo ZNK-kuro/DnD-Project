@@ -18,13 +18,9 @@
 */
 
 #include "h/Laberinto.h"
-#include "h/Jugador.h"
-#include "h/Tesoro.h"
-#include "h/Gnomo.h"
-#include "h/Dragon.h"
 
-Laberinto::Laberinto(int numeroFilas, int numeroColumnas, int numeroTesoros,
-  int numeroGnomos, int numeroDragones, double porcentajeCasillasVacias)
+Laberinto::Laberinto(int numeroFilas, int numeroColumnas, 
+ int numeroTesoros, int numeroGnomos, int numeroDragones, double porcentajeCasillasVacias)
 { // Constructor
   this->numeroFilas = numeroFilas;
   this->numeroColumnas = numeroColumnas;
@@ -35,6 +31,7 @@ Laberinto::Laberinto(int numeroFilas, int numeroColumnas, int numeroTesoros,
   casillasVacias = 0;
   filaEntrada = 1 + (rand()% (numeroFilas-2));
 
+  //cout<< "hasta aquí?" <<endl; // debug purpose
   tablero = new int*[numeroFilas];
   for(int fila=0; fila<numeroFilas; fila++)
   { // Llena todo el laberinto con paredes
@@ -42,11 +39,6 @@ Laberinto::Laberinto(int numeroFilas, int numeroColumnas, int numeroTesoros,
     for(int columna=0; columna<numeroColumnas; columna++)
       tablero[fila][columna] = 1;
   }
-
-  numObjetos = numeroTesoros + numeroGnomos + numeroDragones;
-  objetos = new Objeto[numObjetos];
-  
-
 
   if (porcentajeCasillasVacias > 35)
   { // Limíta el porcentaje máximo de casillas vacías
@@ -71,19 +63,21 @@ Laberinto::~Laberinto()
   for(int fila=0; fila<numeroFilas; fila++)
     delete tablero[fila];
   delete [] tablero;
-  delete [] objetos;
 }
 
+
+// ───────────────────────────────── Public ─────────────────────────────────
 
 void Laberinto::fabricarCamino()
 {
   // Hacer el camino principal:
   casillasVacias += caminoPrincipal(filaEntrada, 0, 3);
 
-  // Ubica la Entrada y la Salida
+  // Ubica la Entrada, la Salida y al jugador (para que no aparezcan gnomos o tesoros en esas casillas)
   tablero[filaEntrada][0] = 5;
   tablero[filaSalida][numeroColumnas-1] = 6;
-  cout<<endl; // debug purpose
+  tablero[filaEntrada][1] = 9;   // Punto de inicio del jugador
+  cout<<endl; // debug purpose // Temporalmente ubica un 9 para evitar que se generen objetos aquí
   //cout<< "Camino principal terminado" <<endl; // debug purpose
   //imprimir(); // debug purpose
   // Hacer caminos al azar:
@@ -118,8 +112,118 @@ void Laberinto::fabricarCamino()
   // Poner los Dragones al azar, cerca de la salida:
   for(int dragones=0; dragones<numeroDragones; dragones++)
     ponerEnCasillaVaciaAlAzar(4);
+    
+  tablero[filaEntrada][1] = 0;
 }
 
+void Laberinto::imprimir()
+{
+  for(int fila=0; fila<numeroFilas; fila++)
+  {
+    for(int columna=0; columna<numeroColumnas; columna++)
+    {
+      if (fila == 0 and columna == 0)
+        cout << "╔";
+      else if (fila == 0 and columna == numeroColumnas-1)
+        cout << "╗";
+      else if (fila == numeroFilas-1 and columna == 0)
+        cout << "╚";
+      else if (fila == numeroFilas-1 and columna == numeroColumnas-1)
+        cout << "╝";
+      else if (fila == 0 and tablero[fila+1][columna] ==1)
+        cout << "╦";
+      else if (fila == numeroFilas-1 and tablero[fila-1][columna] ==1)
+        cout << "╩";
+      else if (fila == 0 or fila == numeroFilas-1)
+        cout << "═";
+      else if (columna == 0 and tablero[fila][columna] == 1 and tablero[fila][columna+1] == 1)
+        cout << "╠";
+      else if (columna == numeroColumnas-1 and tablero[fila][columna] == 1 and tablero[fila][columna-1] == 1)
+        cout << "╣";
+      else if ((columna == 0 or columna == numeroColumnas-1) and tablero[fila][columna] == 1)
+        cout << "║";
+      else if (tablero[fila][columna] == 0)
+        cout << " ";
+      else if (tablero[fila][columna] == 1) // tiene bloque: 1 = arriba, 2 = abajo, 3 = izquierda, 4 = derecha. 0 no tiene bloque
+      {
+        if (tablero[fila-1][columna] == 1) // 1?
+        {
+          if (tablero[fila+1][columna] == 1) // 1,2?
+          {
+            if (tablero[fila][columna-1] == 1) // 1,2,3?
+            {
+              if (tablero[fila][columna+1] == 1) // 1,2,3,4?
+                cout<< "╬"; // 1,2,3,4
+              else
+                cout<< "╣"; // 1,2,3,0
+            }
+            else if (tablero[fila][columna+1] == 1) // 1,2,0,4?
+              cout<< "╠"; // 1,2,0,4
+            else
+              cout<< "║"; // 1,2,0,0
+          }
+          else if (tablero[fila][columna-1] == 1) // 1,0,3?
+          {
+            if (tablero[fila][columna+1] == 1) // 1,0,3,4?
+              cout<< "╩"; // 1,0,3,4
+            else
+              cout<< "╝"; // 1,0,3,0
+          }
+          else if (tablero[fila][columna+1] == 1) // 1,0,0,4?
+            cout<< "╚"; // 1,0,0,4
+          else
+            cout<< "║"; // 1,0,0,0
+        }
+        else if (tablero[fila+1][columna] == 1) // 0,2?
+        {
+          if (tablero[fila][columna-1] == 1) // 0,2,3?
+          {
+            if (tablero[fila][columna+1] == 1) // 0,2,3,4?
+              cout<< "╦"; // 0,2,3,4
+            else
+              cout<< "╗"; // 0,2,3,0
+          }
+          else if (tablero[fila][columna+1] == 1) // 0,2,0,4?
+            cout<< "╔"; // 0,2,0,4
+          else
+            cout<< "║"; // 0,2,0,0
+        }
+        else
+          cout<< "═"; // 0,0,x,x esta es especial, siempre que 1 y 2 sean 0, el resultado será las dos barras laterales.
+      }
+      else if (tablero[fila][columna] == 2)
+        cout << "♦";
+      else if (tablero[fila][columna] == 3)
+        cout << "♣";
+      else if (tablero[fila][columna] == 4)
+        cout << "♠";
+      else if (tablero[fila][columna] == 5 or tablero[fila][columna] == 6 or tablero[fila][columna] == 9)
+        cout << " ";
+      else
+        cout << tablero[fila][columna];
+    }
+    cout << endl;
+  }
+}
+
+
+int Laberinto::queHayAqui(int fila, int columna)
+{
+  return tablero[fila][columna];
+}
+
+void Laberinto::borraAqui(int fila, int columna)
+{
+  tablero[fila][columna] = 0;
+}
+
+int Laberinto::dime_filaEntrada()
+{
+  return filaEntrada;
+}
+
+
+// ───────────────────────────────── Protected ─────────────────────────────────
 
 int Laberinto::caminoPrincipal(int filaInicial, int columnaInicial, int direccion)
 { // Función recursiva que crea un camino que va desde el inicio hasta el final de manera ininterrumpida
@@ -398,98 +502,6 @@ int Laberinto::trazaLineaRecta(int filaInicial, int columnaInicial, int direccio
 }
 
 
-void Laberinto::imprimir()
-{
-  for(int fila=0; fila<numeroFilas; fila++)
-  {
-    for(int columna=0; columna<numeroColumnas; columna++)
-    {
-      if (fila == 0 and columna == 0)
-        cout << "╔";
-      else if (fila == 0 and columna == numeroColumnas-1)
-        cout << "╗";
-      else if (fila == numeroFilas-1 and columna == 0)
-        cout << "╚";
-      else if (fila == numeroFilas-1 and columna == numeroColumnas-1)
-        cout << "╝";
-      else if (fila == 0 and tablero[fila+1][columna] ==1)
-        cout << "╦";
-      else if (fila == numeroFilas-1 and tablero[fila-1][columna] ==1)
-        cout << "╩";
-      else if (fila == 0 or fila == numeroFilas-1)
-        cout << "═";
-      else if (columna == 0 and tablero[fila][columna] == 1 and tablero[fila][columna+1] == 1)
-        cout << "╠";
-      else if (columna == numeroColumnas-1 and tablero[fila][columna] == 1 and tablero[fila][columna-1] == 1)
-        cout << "╣";
-      else if ((columna == 0 or columna == numeroColumnas-1) and tablero[fila][columna] == 1)
-        cout << "║";
-      else if (tablero[fila][columna] == 0)
-        cout << " ";
-      else if (tablero[fila][columna] == 1) // tiene bloque: 1 = arriba, 2 = abajo, 3 = izquierda, 4 = derecha. 0 no tiene bloque
-      {
-        if (tablero[fila-1][columna] == 1) // 1?
-        {
-          if (tablero[fila+1][columna] == 1) // 1,2?
-          {
-            if (tablero[fila][columna-1] == 1) // 1,2,3?
-            {
-              if (tablero[fila][columna+1] == 1) // 1,2,3,4?
-                cout<< "╬"; // 1,2,3,4
-              else
-                cout<< "╣"; // 1,2,3,0
-            }
-            else if (tablero[fila][columna+1] == 1) // 1,2,0,4?
-              cout<< "╠"; // 1,2,0,4
-            else
-              cout<< "║"; // 1,2,0,0
-          }
-          else if (tablero[fila][columna-1] == 1) // 1,0,3?
-          {
-            if (tablero[fila][columna+1] == 1) // 1,0,3,4?
-              cout<< "╩"; // 1,0,3,4
-            else
-              cout<< "╝"; // 1,0,3,0
-          }
-          else if (tablero[fila][columna+1] == 1) // 1,0,0,4?
-            cout<< "╚"; // 1,0,0,4
-          else
-            cout<< "║"; // 1,0,0,0
-        }
-        else if (tablero[fila+1][columna] == 1) // 0,2?
-        {
-          if (tablero[fila][columna-1] == 1) // 0,2,3?
-          {
-            if (tablero[fila][columna+1] == 1) // 0,2,3,4?
-              cout<< "╦"; // 0,2,3,4
-            else
-              cout<< "╗"; // 0,2,3,0
-          }
-          else if (tablero[fila][columna+1] == 1) // 0,2,0,4?
-            cout<< "╔"; // 0,2,0,4
-          else
-            cout<< "║"; // 0,2,0,0
-        }
-        else
-          cout<< "═"; // 0,0,x,x esta es especial, siempre que 1 y 2 sean 0, el resultado será las dos barras laterales.
-      }
-      else if (tablero[fila][columna] == 2)
-        cout << "T";
-      else if (tablero[fila][columna] == 3)
-        cout << "G";
-      else if (tablero[fila][columna] == 4)
-        cout << "D";
-      else if (tablero[fila][columna] == 5 or tablero[fila][columna] == 6)
-        cout << " ";
-      else
-        cout << tablero[fila][columna];
-    }
-    cout << endl;
-  }
-  cout<< endl;
-}
-
-
 void Laberinto::buscarCasillaAlAzar(int &fila, int &columna, int contenido)
 {
   if (contenido==4) // Se encarga del caso especial (dragones)
@@ -505,8 +517,8 @@ void Laberinto::buscarCasillaAlAzar(int &fila, int &columna, int contenido)
   {
     do
     {
-      fila = rand() % numeroFilas;
-      columna = rand() % numeroColumnas;
+      fila = 3 + rand() % (numeroFilas -3);
+      columna = 3 + rand() % (numeroColumnas -3);
     }
     while(tablero[fila][columna] != 0);
   }
@@ -519,19 +531,6 @@ void Laberinto::ponerEnCasillaVaciaAlAzar(int contenido)
 
   buscarCasillaAlAzar(fila, columna, contenido);
   tablero[fila][columna] = contenido;
-  if (contenido == 2)
-  {
-    objetos[objetosColocados] = Tesoro(fila, columna);
-  }
-  else if (contenido == 3)
-  {
-    objetos[objetosColocados] = Gnomo(fila, columna);
-  }
-  else if (contenido == 4)
-  {
-    objetos[objetosColocados] = Dragon(fila, columna);
-  }
-  objetosColocados++;
 }
 
 

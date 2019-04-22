@@ -20,10 +20,8 @@
 #include "h/Gnomo.h"
 using namespace std;
 
-Gnomo::Gnomo(int fila_Objeto, int columna_Objeto) : Objeto(fila_Objeto, columna_Objeto)
+Gnomo::Gnomo(Jugador *jugador) : Objeto(jugador)
 {
-  this-> fila_Objeto = fila_Objeto;
-  this-> columna_Objeto = columna_Objeto;
 }
 
 Gnomo::~Gnomo()

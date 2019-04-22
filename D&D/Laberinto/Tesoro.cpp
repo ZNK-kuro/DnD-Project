@@ -17,19 +17,17 @@
 #include <string>
 #include "h/Tesoro.h"
 
-Tesoro::Tesoro(int fila_Objeto, int columna_Objeto) : Objeto(fila_Objeto, columna_Objeto)
+Tesoro::Tesoro(Jugador *jugador) : Objeto(jugador)
 {
-  this-> fila_Objeto = fila_Objeto;
-  this-> columna_Objeto = columna_Objeto;
 }
 
 Tesoro::~Tesoro()
 {
-  
 }
 
 void Tesoro::encontrar() //evento que ocurre cuando el jugador se encuentra con el objeto
 {
-  Objeto::encontrar();
-  cout<<"un tesoro!!"<<endl;
+  jugador->cogerTesoro();
+  //Objeto::encontrar();
+  //cout<<"un tesoro!!"<<endl;
 }

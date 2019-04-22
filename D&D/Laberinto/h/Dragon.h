@@ -16,26 +16,33 @@
 
   Clase: Dragon
   
-  Responsabilidad: xdd
+  Responsabilidad: 
+  -Mantiene la variable peaje la cual al compararse con el numero de tesoros que tenga el jugador en la funcion condcionDePaso da
+  o niega el paso al jugador
+  -Comprueba si el jugador encuentra un dragon y s 
   
-  Colaboración: ddx
+  Colaboración: parece un Objeto
 */
 
 #ifndef Dragon_HH
 #define Dragon_HH
 
-#include "Objeto.h"
 #include <string>
+#include "Objeto.h"
+#include "Jugador.h"
+using namespace std;
 
 class Dragon : public Objeto
 {
   private:
+    int peaje;
   
   public:
-    Dragon(int fila_Objeto, int columna_Objeto);
+    Dragon(Jugador *jugador);
     ~Dragon();
 
     void condicionDePaso();
+    bool encontrar();
   
 };
 

@@ -16,25 +16,27 @@
 
   Clase: Tesoro
 
-  Responsabilidad: xdd
+  Responsabilidad:
+  -Si encuentra un tesoro aumenta la cantidad de tesorso del jugador
 
-  Colaboración: ddx
+  Colaboración: parece un Objeto
 */
 
 #ifndef Tesoro_HH
 #define Tesoro_HH
 
-#include "Objeto.h"
 #include <string>
+#include "Objeto.h"
+#include "Jugador.h"
+using namespace std;
 
 class Tesoro : public Objeto
 {
 
   public:
-    Tesoro(int fila_Objeto, int columna_Objeto);
+    Tesoro(Jugador *jugador);
     ~Tesoro();
     void encontrar(); //evento que ocurre cuando el jugador se encuentra con el objeto
-
 };
 
 #endif

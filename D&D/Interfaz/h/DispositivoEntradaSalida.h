@@ -50,6 +50,9 @@ class DispositivoEntradaSalida
     int columna_puntos;
     int ancho_puntos;
     
+    int fila_tesoros;
+    int columna_tesoros;
+    
     int fila_ganadores;
     int columna_ganadores;
     int ancho_ganadores;
@@ -72,15 +75,18 @@ class DispositivoEntradaSalida
                              */
                              
                              int fila_nombre=0,
-                             int columna_nombre=17,
+                             int columna_nombre=0,
                              int ancho_nombre=3,
                              
                              int fila_puntos=0,
-                             int columna_puntos=30,
+                             int columna_puntos=14,
                              int ancho_puntos=10,
                              
+                             int fila_tesoros=0,
+                             int columna_tesoros=28,
+                             
                              int fila_ganadores=11,
-                             int columna_ganadores=7,
+                             int columna_ganadores=4,
                              int ancho_ganadores=10,
                              int alto_ganadores=10,
                              

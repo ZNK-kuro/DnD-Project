@@ -15,7 +15,7 @@
 */
 
 #include "h/DispositivoTerminal.h"
-
+#include <ctype.h>
 
 DispositivoTerminal::DispositivoTerminal(int grosorSimbolo) : DispositivoEntradaSalida()
 {
@@ -31,7 +31,7 @@ DispositivoTerminal::DispositivoTerminal(int grosorSimbolo) : DispositivoEntrada
   if(tcsetattr(fileno(stdin), TCSANOW, &terminal) < 0)
     perror("Imposible programar el terminal en modo de un solo caracter");
     
-  printf("%c[%dm", 0x1B, 5);  // Oculta el cursor
+  //printf("%c[%dm", 0x1B, 5);  // Oculta el cursor  // hace parpadear todo el terminal @.@
 /*
   // Dibujar borde de tablero:
   int n=1;
@@ -72,9 +72,11 @@ string DispositivoTerminal::leerNombre()
     char caracter = teclado->sbumpc();
     if(caracter == '\n' or caracter == '\r')
       break;
+    caracter = toupper(caracter);
     nombre += string(1, caracter);
+    
     if(nombre.length() < ancho_nombre)
-      imprimirMensaje(fila_nombre, columna_nombre, nombre);
+      imprimirMensaje(fila_nombre, 17, nombre);
     else
       break;
   }
@@ -101,14 +103,16 @@ int DispositivoTerminal::leerJugada()
           estado = 2;
       break;
       case 2:
-        if(caracter == 0x41) 
+        if(caracter == 0x41) // arriba
           return 1;
-        if(caracter == 0x42) 
+        else if(caracter == 0x44) // izquierda
           return 2;
-        if(caracter == 0x43) 
+        else if(caracter == 0x42) // abajo
           return 3;
-        if(caracter == 0x44) 
-          return 4;        
+        else if(caracter == 0x43) // derecha
+          return 4;
+        else
+          return 0;
       break;
     }
   }
@@ -156,15 +160,19 @@ void DispositivoTerminal::imprimirFichaSiguiente(int fila, int columna, int valo
 void DispositivoTerminal::imprimirNombre(string nombre)
 {
   // ToDo: truncar al ancho
-  imprimirMensaje(fila_nombre, columna_nombre, nombre);
+  imprimirMensaje(fila_nombre, columna_nombre, "NOMBRE: " + nombre + "     ");
 }
 
 
 void DispositivoTerminal::imprimirPuntos(int puntos)
 {
-  imprimirMensaje(fila_puntos, columna_puntos, to_string(puntos));
+  imprimirMensaje(fila_puntos, columna_puntos, "PUNTOS: " + to_string(puntos) + "  ");
 }
 
+void DispositivoTerminal::imprimirTesoros(int tesoros)
+{
+  imprimirMensaje(fila_tesoros, columna_tesoros, "TESOROS: " + to_string(tesoros));
+}
 
 void DispositivoTerminal::imprimirGanadores(string ganadores)
 {
@@ -175,16 +183,18 @@ void DispositivoTerminal::imprimirGanadores(string ganadores)
 int DispositivoTerminal::menu() // Escoger acción
 {
   imprimirMensaje(0,0,"\
-╔══════════════════════════╗\n\
+╔══════════════════════════╗    Bienvenido a D&D espero que esto te ayude:\n\
 ║         DUNGEON          ║\n\
-║           AND            ║\n\
-║         DRAGONS          ║\n\
-║                          ║\n\
-║         1. Jugar         ║\n\
-║    2. Hall de la fama    ║\n\
-║         3. Salir         ║\n\
-║                          ║\n\
-╚══════════════════════════╝"); 
+║           AND            ║  ♥ -> Este eres tú. Muévete con las flechas.\n\
+║         DRAGONS          ║  ♦ -> Estos son tesoros. Cógelos para ganar puntos.\n\
+║                          ║  ♣ -> Esto es un gnomo, no te dejará pasar\n\
+║         1. Jugar         ║       hasta que contestes a sus preguntas,\n\
+║    2. Hall de la fama    ║       pero te dará un tesoro a cambio.\n\
+║         3. Salir         ║  ♠ -> Ten cuidado con los dragones,\n\
+║                          ║       te pedirán tesoros para dejarte pasar.\n\
+╚══════════════════════════╝    Si te quedas sin puntos perderás. ¡Divíertete!\n");
+  imprimirMensaje(fila_mensaje,columna_mensaje, " ");
+
   while(true) // Jugar > Escoger dificultad
   {
     streambuf *teclado = cin.rdbuf();
@@ -203,6 +213,7 @@ int DispositivoTerminal::menu() // Escoger acción
 ║        3. Difícil        ║\n\
 ║                          ║\n\
 ╚══════════════════════════╝");
+      imprimirMensaje(fila_mensaje,columna_mensaje, " ");
       while(true)
       {
         streambuf *teclado = cin.rdbuf();

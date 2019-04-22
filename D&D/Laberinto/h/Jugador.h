@@ -16,20 +16,18 @@
 
   Clase: Jugador
   
-  Responsabilidad: xdd
+  Responsabilidad: 
+  -Guarda los datos del jugador como son fila, columna y en numero de tesoros
+  -Contiene todas las funciones que permiten al jugador moverse e interactuar con todo lo que hay dentro del laberinto
   
-  Colaboración: ddx
 */
 
 
 #ifndef Jugador_HH 
 #define Jugador_HH 
 
-#include "Objeto.h"
 #include <string>
-
-
-using namespace std; 
+using namespace std;
 
 class Jugador
 {
@@ -55,9 +53,11 @@ class Jugador
     */
     //void interactuar();
     void cogerTesoro();
-    bool darTesdoro(int numTesoros);
     void responderPregunta();
+    bool darTesdoro(int numTesoros);
+    void dondeEstas(int *fila, int *columna);
     void nuevaPosicion(int fila, int columna);
+    int tesorosJugador();
 };
 
 #endif

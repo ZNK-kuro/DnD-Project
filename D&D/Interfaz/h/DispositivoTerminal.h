@@ -15,7 +15,7 @@
 
 
   Clase: DispositivoTerminal
-  Responsabilidad: manejar las entradas y salidas del juego Tetris sobre un terminal. Y ello implica leer la entrada (teclado) e imprimir
+  Responsabilidad: manejar las entradas y salidas del juego D&D sobre un terminal. Y ello implica leer la entrada (teclado) e imprimir
   en la salida (pantalla). De la entrada se pueden leer las órdenes que envíe el jugador y si quiere volver a jugar. A la salida se puede
   imprimir el tablero, la ficha siguiente y la lista de ganadores.
   (Para hacerlo, usa códigos de escape ANSI en el terminal, que están documentados aquí: https://en.wikipedia.org/wiki/ANSI_escape_code, por
@@ -60,9 +60,9 @@ class DispositivoTerminal : public DispositivoEntradaSalida
     /**
         Lee una única tecla del teclado, y la retorna con el siguiente convenio 
           return 1 si es la flecha hacia ARRIBA    ( 0x1b, 0x5b, 0x41 ) para girar en el sentido de las agujas del reloj
-          return 2 si es la flecha hacia ABAJO     ( 0x1b, 0x5b, 0x42 )
-          return 3 si es la flecha hacia DERECHA   ( 0x1b, 0x5b, 0x43 )
-          return 4 si es la flecha hacia IZQUIERDA ( 0x1b, 0x5b, 0x44 )
+          return 2 si es la flecha hacia IZQUIERDA ( 0x1b, 0x5b, 0x44 )
+          return 3 si es la flecha hacia ABAJO     ( 0x1b, 0x5b, 0x42 )
+          return 4 si es la flecha hacia DERECHA   ( 0x1b, 0x5b, 0x43 )
     */
     int leerJugada();
     
@@ -90,6 +90,11 @@ class DispositivoTerminal : public DispositivoEntradaSalida
         Imprime los puntos que ha logrado el jugador.
     */
     void imprimirPuntos(int puntos);
+    
+    /**
+        Imprime los tesoros que ha tiene el jugador.
+    */
+    void imprimirTesoros(int tesoros);
     
     /**
         Imprime la lista de ganadores.

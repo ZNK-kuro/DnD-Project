@@ -16,36 +16,37 @@
 
   Clase: Objeto
 
-  Responsabilidad: xdd
+  Responsabilidad: Se encarga de guardar el puntero jugador de tipo jugador del cual heredan dragon, gnomo y tesoro
 
-  Colaboración: ddx
+  Colaboración: Es una clase abstracta
 */
 
 
 #ifndef Objeto_HH
 #define Objeto_HH
 
-#include<string>
+#include <string>
+#include "Jugador.h"
 using namespace std;
 
 class Objeto
 {
   protected:
-    int fila_Objeto;
-    int columna_Objeto;
-   // string nombre;
+    Jugador *jugador;
+    //int fila_Objeto;
+    //int columna_Objeto;
+    //string nombre;
     //virtual bool atributo;
 
   public:
-    Objeto(int fila_Objeto, int columna_Objeto);
-    Objeto();
+    Objeto(Jugador *jugador);
     virtual ~Objeto();
-
+/*
     //eventos que ocurren cuando el jugador se encuentra con el objeto
     virtual void condicionDePaso();
     virtual void encontrar();
-    virtual void posicionActual();
-    //virtual void comoTeLLamas();
+    virtual void comoTeLLamas();
+    */
 };
 
 #endif

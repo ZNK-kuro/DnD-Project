@@ -33,7 +33,11 @@ Jugador::~Jugador()
 void Jugador::cogerTesoro()
 {
   tesoros++;
-  cout<< "+ 1 tesoro" <<endl;
+}
+
+void Jugador::responderPregunta()
+{
+  
 }
 
 bool Jugador::darTesdoro(int numTesoros)
@@ -47,8 +51,20 @@ bool Jugador::darTesdoro(int numTesoros)
     return false;
 }
 
+void Jugador::dondeEstas(int *fila, int *columna)
+{
+  *fila = fila_Jugador;
+  *columna = columna_Jugador;
+}
+
+
 void Jugador::nuevaPosicion(int fila, int columna)
 {
   fila_Jugador = fila;
   columna_Jugador = columna;
+}
+
+int Jugador::tesorosJugador()
+{
+  return tesoros;
 }

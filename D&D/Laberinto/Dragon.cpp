@@ -16,22 +16,23 @@
 #include <iostream>
 #include "h/Dragon.h"
 
-Dragon::Dragon(int fila_Objeto, int columna_Objeto) : Objeto(fila_Objeto, columna_Objeto)
-{
-  this-> fila_Objeto = fila_Objeto;
-  this-> columna_Objeto = columna_Objeto;
-}
 
+Dragon::Dragon(Jugador *jugador) : Objeto(jugador)
+{
+  peaje = (1 + (rand() % 4));
+}
 
 Dragon::~Dragon()
 {
-  
 }
 
 
 void Dragon::condicionDePaso() //condicion de paso que ocurre cuando el jugador se encuentra con el objeto
 {
-  Objeto::condicionDePaso();
-  cout<<"traerme un tesoro"<<endl;
+  
 }
 
+bool Dragon::encontrar()
+{
+  return jugador->darTesdoro(peaje); 
+}

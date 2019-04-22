@@ -41,8 +41,6 @@
 #include <cstdlib>
 #include <cmath>
 #include <iostream>
-#include "Objeto.h"
-#include "Jugador.h"
 using namespace std;
 
 
@@ -59,11 +57,7 @@ class Laberinto
     int casillasVacias;
     int filaEntrada;
     int filaSalida;
-    Objeto *objetos;
-    int numObjetos;
-    int objetosColocados = 0;
     int intentosLineas = 0;
-    Jugador jugador = Jugador(filaEntrada,1);
 
 
   public:
@@ -71,6 +65,9 @@ class Laberinto
     ~Laberinto();
     void fabricarCamino();
     void imprimir();
+    int queHayAqui(int fila, int columna);
+    void borraAqui(int fila, int columna);
+    int dime_filaEntrada();
 
   protected:
     /**
@@ -82,6 +79,8 @@ class Laberinto
     void buscarCasillaAlAzar(int &fila, int &columna, int contenido);
     void ponerEnCasillaVaciaAlAzar(int contenido);
     int escogerDireccion();
+
+    
 };
 
 #endif
