@@ -51,7 +51,7 @@ int main()
         int numGnomos;
         int numDragones;
         int filaMensaje;
-        int columnaMensaje;
+        int columnaMensaje = 1;
         int filaJ = 0;
         int columnaJ = 0;
         int puntosJ;
@@ -67,7 +67,6 @@ int main()
             numGnomos   = 2;
             numDragones = 1;
             filaMensaje = 12;
-            columnaMensaje = 1;
             puntosJ = 50;
             break;
           }
@@ -79,7 +78,6 @@ int main()
             numGnomos   = 4;
             numDragones = 3;
             filaMensaje = 22;
-            columnaMensaje = 23;
             puntosJ = 100;
             break;
           }
@@ -91,7 +89,6 @@ int main()
             numGnomos   = 6;
             numDragones = 6;
             filaMensaje = 32;
-            columnaMensaje = 43;
             puntosJ = 200;
             break;
           }
