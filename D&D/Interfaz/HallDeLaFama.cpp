@@ -9,8 +9,8 @@
           garcia.crhistian@correounivalle.edu.co
 
   Fecha creación:       2018/02/28
-  Última modificación:  2019/04/20
-  Versión: 0.6.2
+  Última modificación:  2019/04/22
+  Versión: 0.7
   Licencia: GPL
 */
 
@@ -21,12 +21,10 @@ HallDeLaFama::HallDeLaFama(string archivo)
 {
   this->archivo = archivo;
   numeroDeGanadores = 0;
-  
   ifstream flujo;
   flujo.open(archivo.c_str());
   if(not flujo.is_open())
     return;
-
   string linea;
   while(not flujo.eof())
   {
@@ -71,7 +69,7 @@ void HallDeLaFama::nuevoGanador(string nombre, int puntaje)
       if(puntos[cual] < puntaje)
         puntos[cual] = puntaje;
     }
-      
+    
   if(not existe)
   {
     if(numeroDeGanadores == 10)

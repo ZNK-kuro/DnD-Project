@@ -9,17 +9,21 @@
           garcia.crhistian@correounivalle.edu.co
 
   Fecha creación:       2018/02/28
-  Última modificación:  2019/04/20
-  Versión: 0.6.2
+  Última modificación:  2019/04/22
+  Versión: 0.7
   Licencia: GPL
 
 
   Clase: DispositivoTerminal
-  Responsabilidad: manejar las entradas y salidas del juego D&D sobre un terminal. Y ello implica leer la entrada (teclado) e imprimir
-  en la salida (pantalla). De la entrada se pueden leer las órdenes que envíe el jugador y si quiere volver a jugar. A la salida se puede
-  imprimir el tablero, la ficha siguiente y la lista de ganadores.
-  (Para hacerlo, usa códigos de escape ANSI en el terminal, que están documentados aquí: https://en.wikipedia.org/wiki/ANSI_escape_code, por
-  si alguien quiere saber más sobre ello).
+  
+  Responsabilidad: 
+  Manejar las entradas y salidas del juego D&D sobre un terminal.
+  Y ello implica leer la entrada (teclado) e imprimir en la salida (pantalla).
+  De la entrada se pueden leer las órdenes que envíe el jugador y si quiere volver a jugar.
+  A la salida se puede imprimir el tablero, la ficha siguiente y la lista de ganadores.
+  (Para hacerlo, usa códigos de escape ANSI en el terminal, que están documentados aquí:
+  https://en.wikipedia.org/wiki/ANSI_escape_code, por si alguien quiere saber más sobre ello).
+  
   Colaboración: es un DispositivoDeEntradaSalida
 */
 
@@ -66,20 +70,15 @@ class DispositivoTerminal : public DispositivoEntradaSalida
     */
     int leerJugada();
     
+    /** 
+       Lee y retorna el 1, 2, 3 ó 4 del teclado, cualquier otro input, devuelve un 0.
+     */
+    int leerTecla();
+    
     /**
         Lee si el jugador quiere volver a jugar (Si/No).
     */
     bool leerSiVolverAJugar();
-    
-    /**
-        Imprime una única casilla del tablero dada por sus coordenadas (fila, columna) con un valor dado.
-    */
-    void imprimirTablero(int fila, int columna, int valor);
-    
-    /**
-        Imprime una única casilla de la ficha siguiente dada por sus coordenadas (fila, columna) con un valor dado.
-    */
-//    void imprimirFichaSiguiente(int fila, int columna, int valor);
     
     /**
         Imprime el nombre del jugador.
@@ -92,7 +91,7 @@ class DispositivoTerminal : public DispositivoEntradaSalida
     void imprimirPuntos(int puntos);
     
     /**
-        Imprime los tesoros que ha tiene el jugador.
+        Imprime los tesoros que tiene el jugador.
     */
     void imprimirTesoros(int tesoros);
     
@@ -101,6 +100,9 @@ class DispositivoTerminal : public DispositivoEntradaSalida
     */
     void imprimirGanadores(string ganadores);
     
+    /**
+        Muestra el menú principal y retorna un número indicando la opción del usuario.
+    */
     int menu();
   
 //  protected:
@@ -109,7 +111,3 @@ class DispositivoTerminal : public DispositivoEntradaSalida
 };
 
 #endif
-
-
-
-

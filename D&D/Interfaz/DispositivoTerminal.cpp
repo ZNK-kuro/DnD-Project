@@ -9,8 +9,8 @@
           garcia.crhistian@correounivalle.edu.co
 
   Fecha creación:       2018/02/28
-  Última modificación:  2019/04/20
-  Versión: 0.6.2
+  Última modificación:  2019/04/22
+  Versión: 0.7
   Licencia: GPL
 */
 
@@ -30,24 +30,6 @@ DispositivoTerminal::DispositivoTerminal(int grosorSimbolo) : DispositivoEntrada
   terminal.c_cc[VMIN] = 1;
   if(tcsetattr(fileno(stdin), TCSANOW, &terminal) < 0)
     perror("Imposible programar el terminal en modo de un solo caracter");
-    
-  //printf("%c[%dm", 0x1B, 5);  // Oculta el cursor  // hace parpadear todo el terminal @.@
-/*
-  // Dibujar borde de tablero:
-  int n=1;
-  for(int columna=columna_Tablero-1; columna<=columna_Tablero+ancho_Tablero; columna++)
-  {
-    imprimirSimbolo(fila_Tablero-1, columna, "█");
-    imprimirSimbolo(fila_Tablero+alto_Tablero, columna, "█");
-  }
-  n=1;
-  for(int fila=fila_Tablero-1; fila<=fila_Tablero+alto_Tablero; fila++)
-  {
-    imprimirSimbolo(fila, columna_Tablero-1, "█");
-    imprimirSimbolo(fila, columna_Tablero+ancho_Tablero, "█");
-  } 
-*/
-
 }
 
 
@@ -119,6 +101,26 @@ int DispositivoTerminal::leerJugada()
 }
 
 
+int DispositivoTerminal::leerTecla()
+{
+  while(true)
+  {
+    streambuf *teclado = cin.rdbuf();
+    char caracter = teclado->sbumpc();
+    if(caracter == '1')
+      return 1;
+    else if(caracter == '2')
+      return 2;
+    else if(caracter == '3')
+      return 3;
+    else if(caracter == '4')
+      return 4;
+    else
+      return 0;
+  }
+}
+
+
 bool DispositivoTerminal::leerSiVolverAJugar()
 {
   imprimirSimbolo(fila_mensaje, columna_mensaje, "¿Quieres volver a jugar? (S/N): ");
@@ -134,32 +136,8 @@ bool DispositivoTerminal::leerSiVolverAJugar()
 }
 
 
-void DispositivoTerminal::imprimirTablero(int fila, int columna, int valor)
-{
- /* if(fila<0 or fila>=alto_Tablero or columna<0 or columna>=ancho_Tablero)
-    return;*/
-  if(valor==0)
-    imprimirSimbolo(/*fila_Tablero+*/fila, /*columna_Tablero+*/columna, " ");
-  else
-    imprimirSimbolo(/*fila_Tablero+*/fila, /*columna_Tablero+*/columna, to_string(valor));
-}
-
-/*
-void DispositivoTerminal::imprimirFichaSiguiente(int fila, int columna, int valor)
-{
-  if(fila<0 or fila>=alto_FichaSiguiente or columna<0 or columna>=ancho_FichaSiguiente)
-    return;
-  if(valor==0)
-    imprimirSimbolo(fila_FichaSiguiente+fila, columna_FichaSiguiente+columna, " ");
-  else
-    imprimirSimbolo(fila_FichaSiguiente+fila, columna_FichaSiguiente+columna, to_string(valor));
-}
-*/
-
-
 void DispositivoTerminal::imprimirNombre(string nombre)
 {
-  // ToDo: truncar al ancho
   imprimirMensaje(fila_nombre, columna_nombre, "NOMBRE: " + nombre + "     ");
 }
 
@@ -169,16 +147,18 @@ void DispositivoTerminal::imprimirPuntos(int puntos)
   imprimirMensaje(fila_puntos, columna_puntos, "PUNTOS: " + to_string(puntos) + "  ");
 }
 
+
 void DispositivoTerminal::imprimirTesoros(int tesoros)
 {
-  imprimirMensaje(fila_tesoros, columna_tesoros, "TESOROS: " + to_string(tesoros));
+  imprimirMensaje(fila_tesoros, columna_tesoros, "TESOROS: " + to_string(tesoros) + " ");
 }
+
 
 void DispositivoTerminal::imprimirGanadores(string ganadores)
 {
-  // ToDo: truncar al ancho
   imprimirMensaje(fila_ganadores, columna_ganadores, ganadores);
 }
+
 
 int DispositivoTerminal::menu() // Escoger acción
 {
@@ -195,12 +175,12 @@ int DispositivoTerminal::menu() // Escoger acción
 ╚══════════════════════════╝    Si te quedas sin puntos perderás. ¡Divíertete!\n");
   imprimirMensaje(fila_mensaje,columna_mensaje, " ");
 
-  while(true) // Jugar > Escoger dificultad
+  while(true)
   {
     streambuf *teclado = cin.rdbuf();
     char caracter = teclado->sbumpc();
     if(caracter == '1')
-    {
+    {                   // Jugar > Escoger dificultad
       system("clear");
       imprimirMensaje(0,0,"\
 ╔══════════════════════════╗\n\
@@ -233,6 +213,7 @@ int DispositivoTerminal::menu() // Escoger acción
   }
 }
 
+
 void DispositivoTerminal::imprimirSimbolo(int fila, int columna, string mensaje)
 {
   for(int y=0; y<grosorSimbolo; y++)
@@ -241,13 +222,7 @@ void DispositivoTerminal::imprimirSimbolo(int fila, int columna, string mensaje)
 }
 
 
-
 void DispositivoTerminal::imprimirMensaje(int fila, int columna, string mensaje)
 {
   printf("%c[%d;%dH%s", 0x1B, fila*grosorSimbolo, columna*grosorSimbolo, mensaje.c_str());
 }
-
-
-
-
-

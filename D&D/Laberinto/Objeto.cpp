@@ -1,16 +1,16 @@
 /*
   Archivo: Objeto.cpp
 
-  Autores:  Ángel García Baños
+  Autores:
             Crhistian García Urbano        1832124
             Nicolas Jaramillo Mayor        1840558
 
   Email:  nicolas.jaramillo@correounivalle.edu.co
           garcia.crhistian@correounivalle.edu.co
 
-  Fecha creación:       2018/02/28
-  Última modificación:  2019/04/20
-  Versión: 0.6.2
+  Fecha creación:       2018/04/04
+  Última modificación:  2019/04/22
+  Versión: 0.7
   Licencia: GPL
 
 
@@ -25,23 +25,14 @@
 #include <string>
 #include "h/Objeto.h"
 
-Objeto::Objeto(Jugador *jugador)
+Objeto::Objeto(Jugador *jugador, DispositivoTerminal *dispositivo, int filaMensaje, int columnaMensaje)
 {
   this->jugador = jugador;
+  this->dispositivo = dispositivo;
+  this->filaMensaje = filaMensaje;
+  this->columnaMensaje = columnaMensaje;
 }
 
 Objeto::~Objeto()
 {
 }
-
-/*
-void Objeto::condicionDePaso ()
-{
-  cout<<"Para pasar debes ";
-}
-
-void Objeto::encontrar()
-{
-  cout<<"¡¡Encontraste un ";
-} */
-

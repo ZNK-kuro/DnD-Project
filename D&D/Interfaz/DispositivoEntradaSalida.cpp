@@ -9,8 +9,8 @@
           garcia.crhistian@correounivalle.edu.co
 
   Fecha creación:       2018/02/28
-  Última modificación:  2019/04/20
-  Versión: 0.6.2
+  Última modificación:  2019/04/22
+  Versión: 0.7
   Licencia: GPL
 */
 
@@ -19,17 +19,6 @@
 
 DispositivoEntradaSalida::DispositivoEntradaSalida
 (
-  /*
-  int fila_Tablero, 
-  int columna_Tablero, 
-  int alto_Tablero, 
-  int ancho_Tablero,
-  */ /*
-  int fila_FichaSiguiente, 
-  int columna_FichaSiguiente, 
-  int alto_FichaSiguiente, 
-  int ancho_FichaSiguiente,
-  */
   int fila_nombre, 
   int columna_nombre, 
   int ancho_nombre,
@@ -47,20 +36,10 @@ DispositivoEntradaSalida::DispositivoEntradaSalida
   int alto_ganadores,
  
   int fila_mensaje, 
-  int columna_mensaje)
+  int columna_mensaje
+)
   
-  : /*
-    fila_Tablero(fila_Tablero),
-    columna_Tablero(columna_Tablero), 
-    alto_Tablero(alto_Tablero), 
-    ancho_Tablero(ancho_Tablero),
-    */ /*
-    fila_FichaSiguiente(fila_FichaSiguiente),
-    columna_FichaSiguiente(columna_FichaSiguiente),
-    alto_FichaSiguiente(alto_FichaSiguiente),
-    ancho_FichaSiguiente(ancho_FichaSiguiente),
-    */
-    fila_nombre(fila_nombre),
+  : fila_nombre(fila_nombre),
     columna_nombre(columna_nombre),
     ancho_nombre(ancho_nombre),
     

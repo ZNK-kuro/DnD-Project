@@ -7,7 +7,7 @@
          michelle.hernandez@correounivalle.edu.co
          nicolas.jaramillo@correounivalle.edu.co
   Fecha creación: 2018/09/17
-  Última modificación:  2019/04/20
+  Última modificación:  2019/04/22
   Versión: 0.6.2
   Licencia: GPL
 */
@@ -57,7 +57,7 @@ int main()
         int numGnomos;
         int numDragones;
         int filaMensaje;
-        //int columnaMensaje;
+        int columnaMensaje;
         int filaJ = 0;
         int columnaJ = 0;
         int puntosJ;
@@ -73,6 +73,7 @@ int main()
             numGnomos   = 2;
             numDragones = 1;
             filaMensaje = 12;
+            columnaMensaje = 1;
             puntosJ = 50;
             break;
           }
@@ -84,6 +85,7 @@ int main()
             numGnomos   = 4;
             numDragones = 3;
             filaMensaje = 22;
+            columnaMensaje = 23;
             puntosJ = 100;
             break;
           }
@@ -95,6 +97,7 @@ int main()
             numGnomos   = 6;
             numDragones = 6;
             filaMensaje = 32;
+            columnaMensaje = 43;
             puntosJ = 200;
             break;
           }
@@ -107,9 +110,9 @@ int main()
         Laberinto laberinto(fila_Laberinto,columna_Laberinto,
                             numTesoros,numGnomos,numDragones,35);
         Jugador jugador(laberinto.dime_filaEntrada(), 1);
-        Tesoro tesoro(&jugador);
-        Gnomo gnomo(&jugador);
-        Dragon dragon(&jugador);
+        Tesoro tesoro(&jugador,&dispositivo,filaMensaje,columnaMensaje);
+        Gnomo gnomo(&jugador,&dispositivo,filaMensaje,columnaMensaje);
+        Dragon dragon(&jugador,&dispositivo,filaMensaje,columnaMensaje);
         //cout<< "?" <<endl; // debug purpose
         laberinto.fabricarCamino();
         //cout << endl << "Laberinto terminado" << endl; // debug purpose
@@ -117,16 +120,70 @@ int main()
         
         do
         {
-          jugador.dondeEstas(&filaJ, &columnaJ);         
+          jugador.dondeEstas(&filaJ, &columnaJ);
           dispositivo.imprimirMensaje(filaJ+2, columnaJ+1, "♥"); // Se imprime al jugador cada turno
           dispositivo.imprimirPuntos(puntosJ);                   // También se imprimen los puntos y los tesoros.
           dispositivo.imprimirTesoros(jugador.tesorosJugador());
           
-          // Codigo para comprobar si hay un objeto al lado del jugador va aquí. (aún no está)
-          
           dispositivo.imprimirMensaje(36,0," ");
           int movimientoHor = 0;
           int movimientoVer = 0;
+          // qué hay en la posición a moverse? / comprobar si hay un objeto al lado del jugador va aquí.
+          int queHay = laberinto.queHayAqui(filaJ + movimientoVer, columnaJ + movimientoHor);
+          if (not ganador and not perdedor) //revisa las casillas al lado de la nueva posición del jugador.
+          {
+            queHay = laberinto.queHayAqui(filaJ - 1, columnaJ); //arriba
+            if (queHay == 2)
+              tesoro.condicionDePaso();
+            if (queHay == 3)
+            {
+              gnomo.condicionDePaso();
+              laberinto.colocaAqui(filaJ -1, columnaJ, 2);
+              dispositivo.imprimirMensaje(filaJ +1, columnaJ +1,"♦");
+              dispositivo.imprimirMensaje(filaMensaje, columnaMensaje, " ");
+            }
+            if (queHay == 4)
+              dragon.condicionDePaso();
+            
+            queHay = laberinto.queHayAqui(filaJ , columnaJ - 1); //izquierda
+            if (queHay == 2)
+              tesoro.condicionDePaso();
+            if (queHay == 3)
+            {
+              gnomo.condicionDePaso();
+              laberinto.colocaAqui(filaJ , columnaJ - 1, 2);
+              dispositivo.imprimirMensaje(filaJ +2, columnaJ,"♦");
+              dispositivo.imprimirMensaje(filaMensaje, columnaMensaje, " ");
+            }
+            if (queHay == 4)
+              dragon.condicionDePaso();
+            
+            queHay = laberinto.queHayAqui(filaJ + 1, columnaJ); //abajo
+            if (queHay == 2)
+              tesoro.condicionDePaso();
+            if (queHay == 3)
+            {
+              gnomo.condicionDePaso();
+              laberinto.colocaAqui(filaJ +1, columnaJ, 2);
+              dispositivo.imprimirMensaje(filaJ +3, columnaJ +1,"♦");
+              dispositivo.imprimirMensaje(filaMensaje, columnaMensaje, " ");
+            }
+            if (queHay == 4)
+              dragon.condicionDePaso();
+            
+            queHay = laberinto.queHayAqui(filaJ , columnaJ + 1); //derecha
+            if (queHay == 2)
+              tesoro.condicionDePaso();
+            if (queHay == 3)
+            {
+              gnomo.condicionDePaso();
+              laberinto.colocaAqui(filaJ, columnaJ + 1, 2);
+              dispositivo.imprimirMensaje(filaJ +2, columnaJ +2,"♦");
+              dispositivo.imprimirMensaje(filaMensaje, columnaMensaje, " ");
+            }
+            if (queHay == 4)
+              dragon.condicionDePaso();
+          }
           switch(dispositivo.leerJugada())
           {
             case 1: // arriba
@@ -155,85 +212,89 @@ int main()
               break;
             }
           }                                           // limpia el mensaje anterior
-          dispositivo.imprimirMensaje(filaMensaje,0,"                                           ");
-          // qué hay en la posición a moverse?
-          int queHay = laberinto.queHayAqui(filaJ + movimientoVer, columnaJ + movimientoHor);
-          // Si no hay nada (y no es la casilla en la que está) el jugador se mueve
-          if (queHay == 0 and movimientoHor != movimientoVer)
+          dispositivo.imprimirMensaje(filaMensaje,columnaMensaje,"                                           ");
+          queHay = laberinto.queHayAqui(filaJ + movimientoVer, columnaJ + movimientoHor);
+          switch(queHay)
           {
-            dispositivo.imprimirMensaje(filaJ+2, columnaJ+1, " ");
-            jugador.nuevaPosicion(filaJ + movimientoVer, columnaJ + movimientoHor);
-            if (puntosJ == 0) // si los puntos llegan a cero, perdiste.
+            case 0: // Si no hay nada (y no es la casilla en la que está) el jugador se mueve
             {
-              perdedor = true;
-              dispositivo.imprimirMensaje(filaMensaje,1,nombre + " Te has perdido en el laberinto. "
-              + "\nPresiona una flecha para continuar.");
-              dispositivo.leerJugada();
-            }
-            puntosJ--;
-            
-          }
-          else
-          {
-            switch(queHay)
-            {
-              case 2: // Tesoro
+              if (movimientoHor != movimientoVer)
               {
-                puntosJ += 100;
-                tesoro.encontrar();
-                laberinto.borraAqui(filaJ + movimientoVer, columnaJ + movimientoHor);
                 dispositivo.imprimirMensaje(filaJ+2, columnaJ+1, " ");
                 jugador.nuevaPosicion(filaJ + movimientoVer, columnaJ + movimientoHor);
-                dispositivo.imprimirMensaje(filaMensaje,1,"Encontraste un tesoro + 100 puntos");
-                break;
-              }
-              case 4: // Dragon
-              {
-                if (dragon.encontrar())
+                if (puntosJ == 0) // si los puntos llegan a cero, perdiste.
                 {
-                  puntosJ += 200;
-                  laberinto.borraAqui(filaJ + movimientoVer, columnaJ + movimientoHor);
-                  dispositivo.imprimirMensaje(filaJ+2, columnaJ+1, " ");
-                  jugador.nuevaPosicion(filaJ + movimientoVer, columnaJ + movimientoHor);
-                  // mensaje de que pasaste al dragon (pendiente)
-                }
-                else
-                {
-                  // mensaje de que el dragon te comió (pendiente)
-                  if (puntosJ < 200) // si el dragon te come pierdes 200 puntos.
-                    puntosJ = 0;
-                  else
-                    puntosJ -= 200;
                   perdedor = true;
-                  dispositivo.imprimirMensaje(filaMensaje,1,
-                  nombre + " te comieron... " +  " Tu puntaje fue: " + to_string(puntosJ)
-                  + "\nPresiona una flecha para continuar.");
+                  dispositivo.imprimirMensaje(filaMensaje,columnaMensaje,
+                  nombre + " Te has perdido en el laberinto. " + "\nPresiona una flecha para continuar.");
                   dispositivo.leerJugada();
                 }
-                break;
+                else
+                  puntosJ--;
               }
-              case 6: // Salida
+              break;
+            }
+            
+            case 2: // Tesoro
+            {
+              puntosJ += 100;
+              tesoro.encontrar();
+              jugador.nuevaPosicion(filaJ + movimientoVer, columnaJ + movimientoHor);
+              laberinto.colocaAqui(filaJ + movimientoVer, columnaJ + movimientoHor, 0);
+              dispositivo.imprimirMensaje(filaJ+2, columnaJ+1, " ");
+              
+              
+              break;
+            }
+            case 4: // Dragon
+            {
+              if (dragon.encontrar())
               {
-                ganador = true;
-                dispositivo.imprimirMensaje(filaMensaje,1,
-                "¡¡GANADOR!! " + nombre + " Tu puntaje fue: " + to_string(puntosJ)
+                puntosJ += 200;
+                laberinto.colocaAqui(filaJ + movimientoVer, columnaJ + movimientoHor, 0);
+                dispositivo.imprimirMensaje(filaJ+2, columnaJ+1, " ");
+                jugador.nuevaPosicion(filaJ + movimientoVer, columnaJ + movimientoHor);
+                dispositivo.imprimirMensaje(filaMensaje,columnaMensaje,
+                "Pasaste al dragón. + 200 puntos");
+              }
+              else
+              {
+                if (puntosJ < 200) // si el dragon te come pierdes 200 puntos.
+                  puntosJ = 0;
+                else
+                  puntosJ -= 200;
+                perdedor = true;
+                dispositivo.imprimirPuntos(puntosJ);
+                dispositivo.imprimirTesoros(jugador.tesorosJugador());
+                dispositivo.imprimirMensaje(filaJ+2, columnaJ+1, " ");
+                dispositivo.imprimirMensaje(filaMensaje,columnaMensaje-2,
+                nombre + " te comieron... Tu puntaje fue: " + to_string(puntosJ)
                 + "\nPresiona una flecha para continuar.");
                 dispositivo.leerJugada();
-                break;
               }
-              default: // case 1, 3 y 5 (Pared, Gnomo Y entrada)
-              {
-                break;
-              }
+              break;
             }
+            case 6: // Salida
+            {
+              ganador = true;
+              dispositivo.imprimirMensaje(filaMensaje,columnaMensaje,
+              "¡¡GANADOR!! " + nombre + " Tu puntaje fue: " + to_string(puntosJ)
+              + "\nPresiona una flecha para continuar.");
+              dispositivo.leerJugada();
+              break;
+            }
+            default: // case 1, 3 y 5 (Pared, Gnomo Y entrada)
+              break;
           }
+          
         }
         while (not ganador and not perdedor);
         
         
         system("clear");
         dispositivo.imprimirMensaje(0,1, nombre + " Tu puntaje fue: " + to_string(puntosJ));
-        dispositivo.imprimirMensaje(2,4,
+        hallDeLaFama.nuevoGanador(nombre, puntosJ);
+        dispositivo.imprimirMensaje(3,4,
         "HALL DE LA FAMA\n" + hallDeLaFama.listaDeGanadores() + "\n Gracias por jugar :3");
         volverAjugar = dispositivo.leerSiVolverAJugar();
         system("clear");

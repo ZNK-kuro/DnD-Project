@@ -1,6 +1,6 @@
 AAA	1000
 ZNK	999
+ASD	782
 CRH	666
-fda	548
-asd	387
-grd	200
+JHJ	77
+GFD	0

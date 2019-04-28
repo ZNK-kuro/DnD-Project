@@ -1,27 +1,27 @@
 /*
   Archivo: Jugador.h
 
-  Autores:  Ángel García Baños
+  Autores:
             Crhistian García Urbano        1832124
             Nicolas Jaramillo Mayor        1840558
 
   Email:  nicolas.jaramillo@correounivalle.edu.co
           garcia.crhistian@correounivalle.edu.co
 
-  Fecha creación:       2018/02/28
-  Última modificación:  2019/04/20
-  Versión: 0.6.2
+  Fecha creación:       2018/04/04
+  Última modificación:  2019/04/22
+  Versión: 0.7
   Licencia: GPL
 
 
   Clase: Jugador
   
   Responsabilidad: 
-  -Guarda los datos del jugador como son fila, columna y en numero de tesoros
-  -Contiene todas las funciones que permiten al jugador moverse e interactuar con todo lo que hay dentro del laberinto
+  Guarda los datos la fila, columna y el numero de tesoros del jugador.
+  Puede moverse, coger tesoros, dar tesoros, decir en dónde está y decir el número de tesoros que tiene.
   
+  Colaboración: Ninguna.
 */
-
 
 #ifndef Jugador_HH 
 #define Jugador_HH 
@@ -32,32 +32,22 @@ using namespace std;
 class Jugador
 {
     private:
-    int fila_Jugador;
-    int columna_Jugador;
-    int tesoros = 0;
-    
+      int fila_Jugador;
+      int columna_Jugador;
+      int tesoros = 0;
     
     public:
     /*
       Crea al jugador y lo pone en la entrada.
     */
     Jugador(int fila_Jugador, int columna_Jugador);
-    /*
-      Borra al jugador, al perder la partida o iniciar una nueva partida.
-    */
     ~Jugador();
-    /*
-      Comprueba si el jugador está sobre un objeto e interactúa con él, 
-      si está al lado del dragón le pregunta cuántos tesoros quiere y
-      si está en la salida, gana el juego.
-    */
-    //void interactuar();
-    void cogerTesoro();
-    void responderPregunta();
-    bool darTesdoro(int numTesoros);
-    void dondeEstas(int *fila, int *columna);
-    void nuevaPosicion(int fila, int columna);
-    int tesorosJugador();
+    
+    void cogerTesoro(); // Aumenta en 1 el número de tesoros.
+    bool darTesdoro(int numTesoros); // Da la cantidad de tesoros que le piden (true) o retorna falso.
+    void dondeEstas(int *fila, int *columna); // Devuelve su posición en el laberinto.
+    void nuevaPosicion(int fila, int columna); // Cambia su posición en el laberinto.
+    int tesorosJugador(); // Retorna la cantidad de tesoros que posee.
 };
 
 #endif

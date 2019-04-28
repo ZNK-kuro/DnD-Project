@@ -8,17 +8,19 @@
   Email:  nicolas.jaramillo@correounivalle.edu.co
           garcia.crhistian@correounivalle.edu.co
 
-  Fecha creación:       2018/02/28
-  Última modificación:  2019/04/20
-  Versión: 0.6.2
+  Fecha creación:       2018/02/24
+  Última modificación:  2019/04/22
+  Versión: 0.7
   Licencia: GPL
 
 
   Clase: HallDeLaFama
   
-  Responsabilidad: Mantener un archivo en disco con la lista de los 10 mejores ganadores y sus puntajes. Debe crearlo 
-  si no existe, actualizarlo y salvarlo. Y debe mantenerlo ordenado de mayor a menor puntaje. Se le puede pedir añadir
-  un nuevo ganador con su puntaje. Se le puede pedir que retorne la lista de ganadores y puntajes.
+  Responsabilidad: 
+  Mantener un archivo en disco con la lista de los 10 mejores ganadores y sus puntajes. 
+  Debe crearlo si no existe, actualizarlo y salvarlo. Y debe mantenerlo ordenado de mayor a menor puntaje. 
+  Se le puede pedir añadir un nuevo ganador con su puntaje. 
+  Se le puede pedir que retorne la lista de ganadores y puntajes.
   
   Colaboración: posee un archivo. Es propietario del archivo, de modo que se encarga de cerrarlo en el destructor.
 */
@@ -49,14 +51,17 @@ class HallDeLaFama
         Veremos que esta clase es hackeable. Y después veremos como evitar el hackeo.
     */
     HallDeLaFama(string archivo="D&D-HallDeLaFama.txt");
+    
     /**
         Salva los ganadores y sus puntajes en el archivo.
     */
     ~HallDeLaFama();
+    
     /**
         Añade un nuevo ganador al final y luego ordena la lista.
     */
     void nuevoGanador(string nombre, int puntaje);
+    
     /**
         Retorna un string con la lista de ganadores, con un ganador por línea. Y para cada ganador se especifica
         su nombre, un carácter tabulador y su puntaje.
@@ -72,4 +77,3 @@ class HallDeLaFama
 
 
 #endif
-

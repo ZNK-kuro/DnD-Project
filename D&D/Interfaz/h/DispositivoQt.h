@@ -8,9 +8,9 @@
   Email:  nicolas.jaramillo@correounivalle.edu.co
           garcia.crhistian@correounivalle.edu.co
 
-  Fecha creación:       2018/02/28
-  Última modificación:  2019/04/20
-  Versión: 0.6.2
+  Fecha creación:       2018/03/01
+  Última modificación:  2019/04/22
+  Versión: 0.7
   Licencia: GPL
 
 

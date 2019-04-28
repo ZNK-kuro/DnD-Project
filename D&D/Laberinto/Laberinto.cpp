@@ -12,8 +12,8 @@
          michelle.hernandez@correounivalle.edu.co
 
   Fecha creación:       2018/09/17
-  Última modificación:  2019/04/20
-  Versión: 0.6.2
+  Última modificación:  2019/04/22
+  Versión: 0.7
   Licencia: GPL
 */
 
@@ -212,9 +212,9 @@ int Laberinto::queHayAqui(int fila, int columna)
   return tablero[fila][columna];
 }
 
-void Laberinto::borraAqui(int fila, int columna)
+void Laberinto::colocaAqui(int fila, int columna, int colocar)
 {
-  tablero[fila][columna] = 0;
+  tablero[fila][columna] = colocar;
 }
 
 int Laberinto::dime_filaEntrada()
@@ -238,25 +238,6 @@ int Laberinto::caminoPrincipal(int filaInicial, int columnaInicial, int direccio
     return 0; // Termina la recursión
   }
 
-
-/*  if (direccion==1) // Izquierda
-  {
-    cout<< "izquierda" <<endl; // debug purpose
-    avanzar = (-(numeroColumnas/15)+(rand()%4)-(rand()%4));
-    if (columnaInicial+avanzar <= 0)
-      avanzar = (-columnaInicial+1);
-
-    for (int columna=columnaInicial; columna>columnaInicial+avanzar; columna--)
-    {
-      if (tablero[filaInicial][columna]!=0)
-      {
-        tablero[filaInicial][columna]=0;
-        contarVacias++;
-      }
-    }
-    contarVacias += caminoPrincipal(filaInicial, columnaInicial+avanzar, escogerDireccion());
-    return contarVacias;
-  } */
 
   if (direccion==3 || direccion==1) // Derecha (la matriz avanza hacia la derecha en vez de
   {                                 //  a la izquierda mientras hace el camino principal)
@@ -528,7 +509,6 @@ void Laberinto::buscarCasillaAlAzar(int &fila, int &columna, int contenido)
 void Laberinto::ponerEnCasillaVaciaAlAzar(int contenido)
 {
   int fila, columna;
-
   buscarCasillaAlAzar(fila, columna, contenido);
   tablero[fila][columna] = contenido;
 }

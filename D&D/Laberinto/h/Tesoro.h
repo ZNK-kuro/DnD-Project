@@ -1,16 +1,16 @@
 /*
   Archivo: Tesoro.h
 
-  Autores:  Ángel García Baños
+  Autores:
             Crhistian García Urbano        1832124
             Nicolas Jaramillo Mayor        1840558
 
   Email:  nicolas.jaramillo@correounivalle.edu.co
           garcia.crhistian@correounivalle.edu.co
 
-  Fecha creación:       2018/02/28
-  Última modificación:  2019/04/20
-  Versión: 0.6.2
+  Fecha creación:       2018/04/04
+  Última modificación:  2019/04/22
+  Versión: 0.7
   Licencia: GPL
 
 
@@ -28,15 +28,16 @@
 #include <string>
 #include "Objeto.h"
 #include "Jugador.h"
+#include "../../Interfaz/h/DispositivoTerminal.h"
 using namespace std;
 
 class Tesoro : public Objeto
 {
-
   public:
-    Tesoro(Jugador *jugador);
+    Tesoro(Jugador *jugador, DispositivoTerminal *dispositivo, int filaMensaje, int columnaMensaje);
     ~Tesoro();
-    void encontrar(); //evento que ocurre cuando el jugador se encuentra con el objeto
+    void condicionDePaso();
+    bool encontrar();
 };
 
 #endif

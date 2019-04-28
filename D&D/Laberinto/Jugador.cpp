@@ -1,16 +1,16 @@
 /*
   Archivo: Jugador.cpp
 
-  Autores:  Ángel García Baños
+  Autores:
             Crhistian García Urbano        1832124
             Nicolas Jaramillo Mayor        1840558
 
   Email:  nicolas.jaramillo@correounivalle.edu.co
           garcia.crhistian@correounivalle.edu.co
 
-  Fecha creación:       2018/02/28
-  Última modificación:  2019/04/20
-  Versión: 0.6.2
+  Fecha creación:       2018/04/04
+  Última modificación:  2019/04/22
+  Versión: 0.7
   Licencia: GPL
 */
 
@@ -20,25 +20,21 @@
 
 Jugador::Jugador(int fila_Jugador, int columna_Jugador)
 {
-  this-> fila_Jugador = fila_Jugador;
-  this-> columna_Jugador = columna_Jugador;
+  this->fila_Jugador = fila_Jugador;
+  this->columna_Jugador = columna_Jugador;
 }
 
 
 Jugador::~Jugador()
 {
-  
 }
+
 
 void Jugador::cogerTesoro()
 {
   tesoros++;
 }
 
-void Jugador::responderPregunta()
-{
-  
-}
 
 bool Jugador::darTesdoro(int numTesoros)
 {
@@ -48,8 +44,10 @@ bool Jugador::darTesdoro(int numTesoros)
     return true;
   }
   else
+    tesoros = 0;
     return false;
 }
+
 
 void Jugador::dondeEstas(int *fila, int *columna)
 {
@@ -63,6 +61,7 @@ void Jugador::nuevaPosicion(int fila, int columna)
   fila_Jugador = fila;
   columna_Jugador = columna;
 }
+
 
 int Jugador::tesorosJugador()
 {
